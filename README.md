@@ -1,7 +1,7 @@
 
 Team_02
-Anton Tolkachev
-Dmitry Bulanov
+Anton Tolkachev (Donald522)
+Dmitry Bulanov (Dumkab)
 
 Программа подготовки Java Junior Developer  
 64 hr. course + 16 hr. project = 80 hr.
