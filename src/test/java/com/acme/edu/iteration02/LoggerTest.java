@@ -97,7 +97,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
-/*
+
     @Test
     public void shouldLogSameSubsequentStringsWithoutRepeat() throws IOException {
         //region when
@@ -112,15 +112,11 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region then
-        assertSysoutEquals(
-            "str 1\n" +
-            "str 2 (x2)\n" +
-            "0\n" +
-            "str 2\n" +
-            "str 3 (x3)\n"
-        );
+        assertSysoutContains("str 1");
+        assertSysoutContains("str 2 (x2)");
+        assertSysoutContains("0");
+        assertSysoutContains("str 2");
+        assertSysoutContains("str 3 (x3)");
         //endregion
     }
-
-    */
 }
