@@ -38,11 +38,13 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutContains(
-            "str 1" + System.lineSeparator() +
-            "3" + System.lineSeparator() +
-            "str 2" + System.lineSeparator() +
-            "0" + System.lineSeparator()
-        );
+            "str 1" + System.lineSeparator());
+        assertSysoutContains(
+            "3" + System.lineSeparator());
+        assertSysoutContains(
+            "str 2" + System.lineSeparator());
+        assertSysoutContains(
+            "0" + System.lineSeparator());
         //endregion
     }
 
@@ -58,13 +60,16 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region then
-        assertSysoutEquals(
-            "str 1" + System.lineSeparator() +
-            "10" + System.lineSeparator() +
-            Integer.MAX_VALUE + System.lineSeparator() +
-            "str 2" + System.lineSeparator() +
-            "0" + System.lineSeparator()
-        );
+        assertSysoutContains(
+            "str 1" + System.lineSeparator());
+        assertSysoutContains(
+            "10" + System.lineSeparator());
+        assertSysoutContains(
+            Integer.MAX_VALUE + System.lineSeparator());
+        assertSysoutContains(
+            "str 2" + System.lineSeparator());
+        assertSysoutContains(
+            "0" + System.lineSeparator());
         //endregion
     }
 /*

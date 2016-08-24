@@ -18,9 +18,14 @@ public class Logger {
 
     private static void logAccIntStream() {
         if (accIntStreamNotNull) {
-            logMessagePrinter(accIntStream.mod(new BigInteger(String.valueOf(Integer.MAX_VALUE))).toString());
+            String prefix = "";
+            if (accIntStream.compareTo(new BigInteger("0")) < 0) {
+                prefix = "-";
+            }
+            accIntStream = accIntStream.abs();
+            logMessagePrinter("primitive: " + prefix + accIntStream.mod(new BigInteger(String.valueOf(Integer.MAX_VALUE))).toString());
             for (int i = 0; i < Integer.parseInt(accIntStream.divide(new BigInteger(String.valueOf(Integer.MAX_VALUE))).toString()); i++) {
-                logMessagePrinter(String.valueOf(Integer.MAX_VALUE));
+                logMessagePrinter(prefix + String.valueOf(Integer.MAX_VALUE));
             }
             accIntStream = new BigInteger("0");
             accIntStreamNotNull = false;
@@ -40,7 +45,7 @@ public class Logger {
     public static void log(Object message) {
         logAccIntStream();
         logMessagePrinter((message instanceof String) ?
-                message.toString() : "reference: " + message);
+               "string: " + message.toString() : "reference: " + message);
     }
 
     private static void logMessagePrinter(String message) {
