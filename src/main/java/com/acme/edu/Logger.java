@@ -1,13 +1,15 @@
 package com.acme.edu;
 
+import java.math.BigInteger;
+
 public class Logger {
 
     private static boolean accIntStreamNotNull = false;
-    private static int accIntStream = 0;
+    private static BigInteger accIntStream = new BigInteger("0");
 
     public static void log(int message) {
         accIntStreamNotNull = true;
-        accIntStream += message;
+        accIntStream = accIntStream.add(new BigInteger(String.valueOf(message)));
     }
 
     public static void logEnd() {
@@ -16,8 +18,11 @@ public class Logger {
 
     private static void logAccIntStream() {
         if (accIntStreamNotNull) {
-            logMessagePrinter(Integer.toString(accIntStream));
-            accIntStream = 0;
+            logMessagePrinter(accIntStream.mod(new BigInteger(String.valueOf(Integer.MAX_VALUE))).toString());
+            for (int i = 0; i < Integer.parseInt(accIntStream.divide(new BigInteger(String.valueOf(Integer.MAX_VALUE))).toString()); i++) {
+                logMessagePrinter(String.valueOf(Integer.MAX_VALUE));
+            }
+            accIntStream = new BigInteger("0");
             accIntStreamNotNull = false;
         }
     }
