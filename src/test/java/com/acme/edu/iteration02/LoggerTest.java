@@ -23,8 +23,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //endregion
 
 
-    /*
-    TODO: implement Logger solution to match specification as tests
+
 
     @Test
     public void shouldLogSequentIntegersAsSum() throws IOException {
@@ -34,18 +33,19 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         Logger.log(2);
         Logger.log("str 2");
         Logger.log(0);
+        Logger.logEnd();
         //endregion
 
         //region then
-        assertSysoutEquals(
-            "str 1\n" +
-            "3\n" +
-            "str 2\n" +
-            "0\n"
+        assertSysoutContains(
+            "str 1" + System.lineSeparator() +
+            "3" + System.lineSeparator() +
+            "str 2" + System.lineSeparator() +
+            "0" + System.lineSeparator()
         );
         //endregion
     }
-
+/*
     @Test
     public void shouldLogCorrectlyIntegerOverflowWhenSequentIntegers() {
         //region when
@@ -58,11 +58,11 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutEquals(
-            "str 1\n" +
-            "10\n" +
-            Integer.MAX_VALUE + "\n" +
-            "str 2\n" +
-            "0\n"
+            "str 1" + System.lineSeparator() +
+            "10" + System.lineSeparator() +
+            Integer.MAX_VALUE + System.lineSeparator() +
+            "str 2" + System.lineSeparator() +
+            "0" + System.lineSeparator()
         );
         //endregion
     }
