@@ -4,98 +4,137 @@ import java.math.BigInteger;
 
 public class Logger {
 
-    private static boolean accNumStreamNotNull = false;
-    private static boolean isaccNumeger = false;
-    private static int prevClassType = 0;
-    private static BigInteger accNumStream = new BigInteger("0");
-    private static String lastLoggedString = "";
-    private static int counterOfSameSimultaneousStrings = 0;
+    private final static int INT = 1;
+    private final static int BYTE = 2;
+    private final static int CHAR = 3;
+    private final static int BOOLEAN = 4;
+    private final static int STRING = 5;
+    private final static int OBJECT = 6;
 
-    private static void checkPrevType(int type){
-        if (type != prevClassType) {
-            logEnd();
-        }
-    }
+    private static int accNumbersStream = 0;
+    private static boolean numberStreamOn = false;
+    private static int currentMessageType = 0;
+
+    private static String lastLoggedString = "";
+    private static int counterOfSameSimultaneousStrings = 1;
+    private static boolean stringsStream = false;
 
     public static void log(int message) {
-        checkPrevType(1);
-        prevClassType = 1;
-        isaccNumeger = true;
-        accNumStreamNotNull = true;
-        accNumStream = accNumStream.add(new BigInteger(String.valueOf(message)));
+        if(checkType(INT)) {
+            flush();
+        }
+        currentMessageType = INT;
+        numberStreamOn = true;
+        if(Integer.MAX_VALUE - accNumbersStream >= message) {
+            accNumbersStream += message;
+        } else {
+            flush();
+            log(Integer.MAX_VALUE);
+        }
     }
 
     public static void log(byte message) {
-        checkPrevType(2);
-        prevClassType = 2;
-        isaccNumeger = false;
-        accNumStreamNotNull = true;
-        accNumStream = accNumStream.add(new BigInteger(String.valueOf(message)));
-    }
-
-    public static void logEnd() {
-        if (counterOfSameSimultaneousStrings > 0)
-        {
-            String appendix = "";
-            if (counterOfSameSimultaneousStrings > 1)
-                appendix = " (x" + String.valueOf(counterOfSameSimultaneousStrings + ")");
-            logMessagePrinter("string: " + lastLoggedString + appendix);
-            counterOfSameSimultaneousStrings = 0;
-            lastLoggedString = "";
+        if(checkType(BYTE)) {
+            flush();
         }
-        if (isaccNumeger)
-            logaccNumStream(Integer.MAX_VALUE);
-        else
-            logaccNumStream((int) Byte.MAX_VALUE);
-    }
-
-    private static void logaccNumStream(Integer maxValue) {
-        if (accNumStreamNotNull) {
-            String prefix = "";
-            if (accNumStream.compareTo(new BigInteger("0")) < 0) {
-                prefix = "-";
-            }
-            accNumStream = accNumStream.abs();
-            logMessagePrinter("primitive: " + prefix + accNumStream.mod(new BigInteger(String.valueOf(maxValue))).toString());
-            for (int i = 0; i < Integer.parseInt(accNumStream.divide(new BigInteger(String.valueOf(maxValue))).toString()); i++) {
-                logMessagePrinter(prefix + String.valueOf(maxValue));
-            }
-            accNumStream = new BigInteger("0");
-            accNumStreamNotNull = false;
+        currentMessageType = BYTE;
+        numberStreamOn = true;
+        if(Byte.MAX_VALUE - accNumbersStream >= message) {
+            accNumbersStream += message;
+        } else {
+            flush();
+            log(Byte.MAX_VALUE);
         }
     }
 
     public static void log(char message) {
-        checkPrevType(3);
-        prevClassType = 3;
-        logMessagePrinter("char: " + message);
+        if(checkType(CHAR)) {
+            flush();
+        }
+        currentMessageType = CHAR;
+        logMessagePrinter("char: " + message + System.lineSeparator());
     }
 
     public static void log(boolean message) {
-        checkPrevType(4);
-        prevClassType = 4;
-        logMessagePrinter("primitive: " + message);
+        if(checkType(BOOLEAN)) {
+            flush();
+        }
+        currentMessageType = BOOLEAN;
+        logMessagePrinter("primitive: " + message + System.lineSeparator());
     }
 
     public static void log(Object message) {
         if(message instanceof String) {
-            checkPrevType(5);
-            prevClassType = 5;
+            if(checkType(STRING)) {
+                flush();
+            }
+            currentMessageType = STRING;
             if(message.equals(lastLoggedString)) {
                 counterOfSameSimultaneousStrings++;
             } else {
-                logEnd();
-                counterOfSameSimultaneousStrings = 1;
+                flush();
                 lastLoggedString = message.toString();
+                stringsStream = true;
             }
+
         } else {
-            checkPrevType(6);
-            prevClassType = 6;
-            logMessagePrinter("reference: " + message);
+            if(checkType(OBJECT)) {
+                flush();
+            }
+            currentMessageType = OBJECT;
+            logMessagePrinter("reference: " + message + System.lineSeparator());
         }
     }
 
+    public static void log(int[] message) {
+        logMessagePrinter("primitives array: ");
+        logOneDimArray(message);
+    }
+
+    public static void log(int[][] message) {
+        logMessagePrinter("primitives matrix: {" + System.lineSeparator());
+        for(int[] array : message) {
+            logOneDimArray(array);
+            logMessagePrinter(System.lineSeparator());
+        }
+        logMessagePrinter("}" + System.lineSeparator());
+    }
+
+    private static void logOneDimArray(int[] array) {
+        logMessagePrinter("{");
+        for (int i = 0, messageLength = array.length; i < messageLength; i++) {
+            int element = array[i];
+            logMessagePrinter(String.valueOf(element));
+            if(i != messageLength - 1) {
+                logMessagePrinter(", ");
+            }
+        }
+        logMessagePrinter("}");
+    }
+
     private static void logMessagePrinter(String message) {
-        System.out.println(message);
+        System.out.print(message);
+    }
+
+    private static boolean checkType(int messageType) {
+        return (messageType != currentMessageType);
+    }
+
+    public static void flush() {
+        if(numberStreamOn) {
+            logMessagePrinter("primitive: " + accNumbersStream + System.lineSeparator());
+            accNumbersStream = 0;
+            numberStreamOn = false;
+        }
+        if(stringsStream) {
+            if(counterOfSameSimultaneousStrings > 1) {
+                logMessagePrinter("string: " + lastLoggedString + " (x" + counterOfSameSimultaneousStrings + ")" + System.lineSeparator());
+                counterOfSameSimultaneousStrings = 1;
+            } else {
+                logMessagePrinter(" string: " + lastLoggedString + System.lineSeparator());
+            }
+            lastLoggedString = "";
+            stringsStream = false;
+        }
     }
 }

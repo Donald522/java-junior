@@ -23,8 +23,6 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //endregion
 
 
-
-
     @Test
     public void shouldLogSequentIntegersAsSum() throws IOException {
         //region when
@@ -33,18 +31,18 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         Logger.log(2);
         Logger.log("str 2");
         Logger.log(0);
-        Logger.logEnd();
+        Logger.flush();
         //endregion
 
         //region then
         assertSysoutContains(
-            "str 1" + System.lineSeparator());
+                "str 1" + System.lineSeparator());
         assertSysoutContains(
-            "3" + System.lineSeparator());
+                "3" + System.lineSeparator());
         assertSysoutContains(
-            "str 2" + System.lineSeparator());
+                "str 2" + System.lineSeparator());
         assertSysoutContains(
-            "0" + System.lineSeparator());
+                "0" + System.lineSeparator());
         //endregion
     }
 
@@ -56,20 +54,20 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         Logger.log(Integer.MAX_VALUE);
         Logger.log("str 2");
         Logger.log(0);
-        Logger.logEnd();
+        Logger.flush();
         //endregion
 
         //region then
         assertSysoutContains(
-            "str 1" + System.lineSeparator());
+                "str 1" + System.lineSeparator());
         assertSysoutContains(
-            "10" + System.lineSeparator());
+                "10" + System.lineSeparator());
         assertSysoutContains(
-            Integer.MAX_VALUE + System.lineSeparator());
+                Integer.MAX_VALUE + System.lineSeparator());
         assertSysoutContains(
-            "str 2" + System.lineSeparator());
+                "str 2" + System.lineSeparator());
         assertSysoutContains(
-            "0" + System.lineSeparator());
+                "0" + System.lineSeparator());
         //endregion
     }
 
@@ -77,23 +75,24 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogCorrectlyByteOverflowWhenSequentBytes() {
         //region when
         Logger.log("str 1");
-        Logger.log((byte)10);
-        Logger.log((byte)Byte.MAX_VALUE);
+        Logger.log((byte) 10);
+        Logger.log((byte) Byte.MAX_VALUE);
         Logger.log("str 2");
         Logger.log(0);
+        Logger.flush();
         //endregion
 
         //region then
         assertSysoutContains(
-            "str 1");
+                "str 1");
         assertSysoutContains(
-            "10");
+                "10");
         assertSysoutContains(
-            String.valueOf(Byte.MAX_VALUE));
+                String.valueOf(Byte.MAX_VALUE));
         assertSysoutContains(
-            "str 2");
+                "str 2");
         assertSysoutContains(
-            "0");
+                "0");
         //endregion
     }
 
@@ -109,7 +108,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         Logger.log("str 3");
         Logger.log("str 3");
         Logger.log("str 3");
-        Logger.logEnd();
+        Logger.flush();
         //endregion
 
         //region then
