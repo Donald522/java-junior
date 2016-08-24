@@ -15,6 +15,9 @@ public class Logger {
     private static boolean numberStreamOn = false;
     private static int currentMessageType = 0;
 
+    private static int maxIntCounter = 0;
+    private static int maxByteCounter = 0;
+
     private static String lastLoggedString = "";
     private static int counterOfSameSimultaneousStrings = 1;
     private static boolean stringsStream = false;
@@ -28,8 +31,8 @@ public class Logger {
         if(Integer.MAX_VALUE - accNumbersStream >= message) {
             accNumbersStream += message;
         } else {
-            flush();
-            log(Integer.MAX_VALUE);
+            accNumbersStream -= (Integer.MAX_VALUE - message);
+            maxIntCounter++;
         }
     }
 
@@ -42,8 +45,8 @@ public class Logger {
         if(Byte.MAX_VALUE - accNumbersStream >= message) {
             accNumbersStream += message;
         } else {
-            flush();
-            log(Byte.MAX_VALUE);
+            accNumbersStream -= (Byte.MAX_VALUE - message);
+            maxByteCounter++;
         }
     }
 
@@ -123,6 +126,14 @@ public class Logger {
     public static void flush() {
         if(numberStreamOn) {
             logMessagePrinter("primitive: " + accNumbersStream + System.lineSeparator());
+            while(maxIntCounter != 0) {
+                logMessagePrinter(Integer.MAX_VALUE + System.lineSeparator());
+                maxIntCounter--;
+            }
+            while(maxByteCounter != 0) {
+                logMessagePrinter(Byte.MAX_VALUE + System.lineSeparator());
+                maxByteCounter--;
+            }
             accNumbersStream = 0;
             numberStreamOn = false;
         }
