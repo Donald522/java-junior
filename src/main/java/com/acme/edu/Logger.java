@@ -4,46 +4,61 @@ import java.math.BigInteger;
 
 public class Logger {
 
-    private static boolean accIntStreamNotNull = false;
-    private static BigInteger accIntStream = new BigInteger("0");
+    private static boolean accNumStreamNotNull = false;
+    private static boolean isaccNumeger = false;
+    private static BigInteger accNumStream = new BigInteger("0");
 
     public static void log(int message) {
-        accIntStreamNotNull = true;
-        accIntStream = accIntStream.add(new BigInteger(String.valueOf(message)));
+        if (!isaccNumeger)
+            logEnd();
+        isaccNumeger = true;
+        accNumStreamNotNull = true;
+        accNumStream = accNumStream.add(new BigInteger(String.valueOf(message)));
+    }
+
+    public static void log(byte message) {
+        if (isaccNumeger)
+            logEnd();
+        isaccNumeger = false;
+        accNumStreamNotNull = true;
+        accNumStream = accNumStream.add(new BigInteger(String.valueOf(message)));
     }
 
     public static void logEnd() {
-        logAccIntStream();
+        if (isaccNumeger)
+            logaccNumStream(Integer.MAX_VALUE);
+        else
+            logaccNumStream((int) Byte.MAX_VALUE);
     }
 
-    private static void logAccIntStream() {
-        if (accIntStreamNotNull) {
+    private static void logaccNumStream(Integer maxValue) {
+        if (accNumStreamNotNull) {
             String prefix = "";
-            if (accIntStream.compareTo(new BigInteger("0")) < 0) {
+            if (accNumStream.compareTo(new BigInteger("0")) < 0) {
                 prefix = "-";
             }
-            accIntStream = accIntStream.abs();
-            logMessagePrinter("primitive: " + prefix + accIntStream.mod(new BigInteger(String.valueOf(Integer.MAX_VALUE))).toString());
-            for (int i = 0; i < Integer.parseInt(accIntStream.divide(new BigInteger(String.valueOf(Integer.MAX_VALUE))).toString()); i++) {
-                logMessagePrinter(prefix + String.valueOf(Integer.MAX_VALUE));
+            accNumStream = accNumStream.abs();
+            logMessagePrinter("primitive: " + prefix + accNumStream.mod(new BigInteger(String.valueOf(maxValue))).toString());
+            for (int i = 0; i < Integer.parseInt(accNumStream.divide(new BigInteger(String.valueOf(maxValue))).toString()); i++) {
+                logMessagePrinter(prefix + String.valueOf(maxValue));
             }
-            accIntStream = new BigInteger("0");
-            accIntStreamNotNull = false;
+            accNumStream = new BigInteger("0");
+            accNumStreamNotNull = false;
         }
     }
 
     public static void log(char message) {
-        logAccIntStream();
+        logEnd();
         logMessagePrinter("char: " + message);
     }
 
     public static void log(boolean message) {
-        logAccIntStream();
+        logEnd();
         logMessagePrinter("primitive: " + message);
     }
 
     public static void log(Object message) {
-        logAccIntStream();
+        logEnd();
         logMessagePrinter((message instanceof String) ?
                "string: " + message.toString() : "reference: " + message);
     }
