@@ -54,7 +54,7 @@ public class LoggerMaster {
                 }
                 break;
             case "java.lang.String":
-                if((logger != null)) {
+                if((logger != null) && !(logger instanceof StringLogger)) {
                     flush();
                 }
                 logger = StringLogger.getInstance();
