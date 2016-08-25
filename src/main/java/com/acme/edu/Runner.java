@@ -16,6 +16,9 @@ public class Runner {
         logger.log("asd");
         logger.log("asd");
         logger.log("tert");
+        logger.log('a');
+        logger.log('b');
+        logger.log('c');
         logger.flush();
     }
 }

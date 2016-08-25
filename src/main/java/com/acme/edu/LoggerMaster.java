@@ -35,10 +35,16 @@ public class LoggerMaster {
                 System.out.println(message.getClass().getName());
                 break;
             case "java.lang.Character":
-                System.out.println(message.getClass().getName());
+                if((logger != null)) {
+                    flush();
+                }
+                logger = CharLogger.getInstance();
+                if(decoratorBydefault) {
+                    decorator = CharDecorator.getInstance();
+                }
                 break;
             case "java.lang.String":
-                if((logger != null) && !(logger instanceof StringLogger)) {
+                if((logger != null)) {
                     flush();
                 }
                 logger = StringLogger.getInstance();
