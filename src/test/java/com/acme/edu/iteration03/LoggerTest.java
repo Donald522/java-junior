@@ -1,6 +1,6 @@
 //package com.acme.edu.iteration03;
 //
-//import com.acme.edu.Logger;
+//import com.acme.edu.OldLogger;
 //import com.acme.edu.SysoutCaptureAndAssertionAbility;
 //import org.junit.After;
 //import org.junit.Before;
@@ -26,7 +26,7 @@
 //    @Test
 //    public void shouldLogIntegersArray() throws IOException {
 //        //region when
-//        Logger.log(new int[] {-1, 0, 1});
+//        OldLogger.log(new int[] {-1, 0, 1});
 //        //endregion
 //
 //        //region then
@@ -39,7 +39,7 @@
 //    @Test
 //    public void shouldLogIntegersMatrix() throws IOException {
 //        //region when
-//        Logger.log(new int[][] {{-1, 0, 1}, {1, 2, 3}, {-1, -2, -3}});
+//        OldLogger.log(new int[][] {{-1, 0, 1}, {1, 2, 3}, {-1, -2, -3}});
 //        //endregion
 //
 //        //region then
@@ -56,7 +56,7 @@
 //    @Test
 //    public void shouldLogIntegersMulitidimentionalArray() throws IOException {
 //        //region when
-//        Logger.log(new int[][][][] {{{{0}}}});
+//        OldLogger.log(new int[][][][] {{{{0}}}});
 //        //endregion
 //
 //        //region then
@@ -73,7 +73,7 @@
 //    @Test
 //    public void shouldLogStringsWithOneMethodCall() throws IOException {
 //        //region when
-//        Logger.log("str1", "string 2", "str 3");
+//        OldLogger.log("str1", "string 2", "str 3");
 //        //endregion
 //
 //        //region then
@@ -84,7 +84,7 @@
 //    @Test
 //    public void shouldLogIntegersWithOneMethodCall() throws IOException {
 //        //region when
-//        Logger.log(-1, 0, 1, 3);
+//        OldLogger.log(-1, 0, 1, 3);
 //        //endregion
 //
 //        //region then
@@ -95,10 +95,10 @@
 //    @Test
 //    public void shouldCorrectDealWithIntegerOverflowWhenOneMethodCall() throws IOException {
 //        //region when
-//        Logger.log(1);
-//        Logger.log("str");
-//        Logger.log(Integer.MAX_VALUE - 10);
-//        Logger.log(11);
+//        OldLogger.log(1);
+//        OldLogger.log("str");
+//        OldLogger.log(Integer.MAX_VALUE - 10);
+//        OldLogger.log(11);
 //        //endregion
 //
 //        //region then

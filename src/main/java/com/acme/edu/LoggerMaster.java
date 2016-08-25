@@ -1,11 +1,15 @@
 package com.acme.edu;
 
+import com.acme.edu.decorators.*;
+import com.acme.edu.loggers.*;
+import com.acme.edu.savers.Saver;
+
 /**
  * Created by anton on 25.08.16.
  */
 public class LoggerMaster {
 
-    private Loger logger;
+    private Logger logger;
     private Saver saver;
     private Decorator decorator;
 
@@ -32,10 +36,23 @@ public class LoggerMaster {
                 }
                 break;
             case "java.lang.Byte":
-                System.out.println(message.getClass().getName());
+                if((logger != null) && !(logger instanceof ByteLogger)) {
+                    flush();
+                }
+                message = ((Byte)message).intValue();
+                logger = ByteLogger.getInstance();
+                if(decoratorBydefault) {
+                    decorator = IntDecorator.getInstance();
+                }
                 break;
             case "java.lang.Character":
-                System.out.println(message.getClass().getName());
+                if((logger != null) && !(logger instanceof CharLogger)) {
+                    flush();
+                }
+                logger = CharLogger.getInstance();
+                if(decoratorBydefault) {
+                    decorator = CharDecorator.getInstance();
+                }
                 break;
             case "java.lang.String":
                 if((logger != null) && !(logger instanceof StringLogger)) {
@@ -49,10 +66,22 @@ public class LoggerMaster {
                 logger.setDecorator(decorator);
                 break;
             case "java.lang.Boolean":
-                System.out.println(message.getClass().getName());
+                if((logger != null) && !(logger instanceof BooleanLogger)) {
+                    flush();
+                }
+                logger = BooleanLogger.getInstance();
+                if(decoratorBydefault) {
+                    decorator = BooleanDecorator.getInstance();
+                }
                 break;
             case "java.lang.Object":
-                System.out.println(message.getClass().getName());
+                if((logger != null) && !(logger instanceof ObjectLogger)) {
+                    flush();
+                }
+                logger = ObjectLogger.getInstance();
+                if(decoratorBydefault) {
+                    decorator = ObjectDecorator.getInstance();
+                }
                 break;
         }
         logger.log(message);
