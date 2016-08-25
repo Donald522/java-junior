@@ -1,4 +1,7 @@
-package com.acme.edu;
+package com.acme.edu.demo;
+
+import com.acme.edu.LoggerMaster;
+import com.acme.edu.savers.ConsoleSaver;
 
 /**
  * Created by anton on 25.08.16.

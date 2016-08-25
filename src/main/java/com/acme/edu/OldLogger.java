@@ -1,6 +1,6 @@
 package com.acme.edu;
 
-public class Logger {
+public class OldLogger {
 
     private final static int INT = 1;
     private final static int BYTE = 2;

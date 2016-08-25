@@ -1,9 +1,9 @@
-package com.acme.edu;
+package com.acme.edu.decorators;
 
 /**
  * Created by anton on 25.08.16.
  */
-public class IntDecorator implements Decorator{
+public class IntDecorator implements Decorator {
 
     private static IntDecorator itSelf = null;
 

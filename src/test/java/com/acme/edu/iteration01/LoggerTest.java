@@ -1,6 +1,6 @@
 //package com.acme.edu.iteration01;
 //
-//import com.acme.edu.Logger;
+//import com.acme.edu.OldLogger;
 //import com.acme.edu.SysoutCaptureAndAssertionAbility;
 //import org.junit.After;
 //import org.junit.Before;
@@ -25,12 +25,12 @@
 //    @Test
 //    public void shouldLogInteger() throws IOException {
 //        //region when
-//        Logger.log(1);
-//        Logger.flush();
-//        Logger.log(0);
-//        Logger.flush();
-//        Logger.log(-1);
-//        Logger.flush();
+//        OldLogger.log(1);
+//        OldLogger.flush();
+//        OldLogger.log(0);
+//        OldLogger.flush();
+//        OldLogger.log(-1);
+//        OldLogger.flush();
 //        //endregion
 //
 //        //region then
@@ -42,12 +42,12 @@
 //    @Test
 //    public void shouldLogByte() throws IOException {
 //        //region when
-//        Logger.log((byte)1);
-//        Logger.flush();
-//        Logger.log((byte)0);
-//        Logger.flush();
-//        Logger.log((byte)-1);
-//        Logger.flush();
+//        OldLogger.log((byte)1);
+//        OldLogger.flush();
+//        OldLogger.log((byte)0);
+//        OldLogger.flush();
+//        OldLogger.log((byte)-1);
+//        OldLogger.flush();
 //        //endregion
 //
 //        //region then
@@ -62,8 +62,8 @@
 //    @Test
 //    public void shouldLogChar() throws IOException {
 //        //region when
-//        Logger.log('a');
-//        Logger.log('b');
+//        OldLogger.log('a');
+//        OldLogger.log('b');
 //        //endregion
 //
 //        //region then
@@ -76,9 +76,9 @@
 //    @Test
 //    public void shouldLogString() throws IOException {
 //        //region when
-//        Logger.log("test string 1");
-//        Logger.log("other str");
-//        Logger.flush();
+//        OldLogger.log("test string 1");
+//        OldLogger.log("other str");
+//        OldLogger.flush();
 //        //endregion
 //
 //        //region then
@@ -91,8 +91,8 @@
 //    @Test
 //    public void shouldLogBoolean() throws IOException {
 //        //region when
-//        Logger.log(true);
-//        Logger.log(false);
+//        OldLogger.log(true);
+//        OldLogger.log(false);
 //        //endregion
 //
 //        //region then
@@ -105,7 +105,7 @@
 //    @Test
 //    public void shouldLogReference() throws IOException {
 //        //region when
-//        Logger.log(new Object());
+//        OldLogger.log(new Object());
 //        //endregion
 //
 //        //region then

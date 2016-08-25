@@ -1,4 +1,4 @@
-package com.acme.edu;
+package com.acme.edu.constants;
 
 /**
  * Created by anton on 25.08.16.

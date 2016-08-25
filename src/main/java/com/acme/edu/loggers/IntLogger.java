@@ -1,9 +1,11 @@
-package com.acme.edu;
+package com.acme.edu.loggers;
+
+import com.acme.edu.constants.Constants;
 
 /**
  * Created by anton on 25.08.16.
  */
-public class IntLogger extends Loger {
+public class IntLogger extends Logger {
 
     private int accIntStream = 0;
     private int maxIntCounter = 0;

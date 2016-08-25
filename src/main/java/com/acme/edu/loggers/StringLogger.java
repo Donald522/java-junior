@@ -1,9 +1,11 @@
-package com.acme.edu;
+package com.acme.edu.loggers;
+
+import com.acme.edu.constants.Constants;
 
 /**
  * Created by anton on 25.08.16.
  */
-public class StringLogger extends Loger{
+public class StringLogger extends Logger {
 
     private  String lastLoggedString = null;
     private int counterOfSameSimultaneousStrings = 1;

@@ -1,11 +1,21 @@
 package com.acme.edu;
 
+import com.acme.edu.decorators.CharDecorator;
+import com.acme.edu.decorators.Decorator;
+import com.acme.edu.decorators.IntDecorator;
+import com.acme.edu.decorators.StringDecorator;
+import com.acme.edu.loggers.CharLogger;
+import com.acme.edu.loggers.IntLogger;
+import com.acme.edu.loggers.Logger;
+import com.acme.edu.loggers.StringLogger;
+import com.acme.edu.savers.Saver;
+
 /**
  * Created by anton on 25.08.16.
  */
 public class LoggerMaster {
 
-    private Loger logger;
+    private Logger logger;
     private Saver saver;
     private Decorator decorator;
 

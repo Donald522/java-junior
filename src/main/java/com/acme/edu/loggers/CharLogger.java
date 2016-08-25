@@ -1,9 +1,9 @@
-package com.acme.edu;
+package com.acme.edu.loggers;
 
 /**
  * Created by anton on 25.08.16.
  */
-public class CharLogger extends Loger{
+public class CharLogger extends Logger {
 
     private char lastLoggedCharacter;
 

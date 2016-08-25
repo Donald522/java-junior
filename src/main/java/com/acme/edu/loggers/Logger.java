@@ -1,9 +1,12 @@
-package com.acme.edu;
+package com.acme.edu.loggers;
+
+import com.acme.edu.savers.Saver;
+import com.acme.edu.decorators.Decorator;
 
 /**
  * Created by anton on 25.08.16.
  */
-public abstract class Loger {
+public abstract class Logger {
 
     protected int loggerType;
 
