@@ -1,53 +1,56 @@
 package com.acme.edu;
 
 /**
- * Created by Java_10 on 25.08.2016.
+ * Created by anton on 25.08.16.
  */
-public class IntLogger extends LoggerBaseClass {
+public class IntLogger extends Loger {
 
-    private int accNumbersStream = 0;
-    private boolean numberStreamOn = false;
+    private int accIntStream = 0;
     private int maxIntCounter = 0;
+    private boolean intStreamOn = false;
+
+    private static IntLogger itSelf = null;
+
+    private IntLogger() {}
+
+    public static IntLogger getInstance() {
+        if(itSelf == null) {
+            itSelf = new IntLogger();
+        }
+        return itSelf;
+    }
 
     @Override
-    protected void log(int message) {
-        type = 1;
-        numberStreamOn = true;
-        if(Integer.MAX_VALUE - accNumbersStream >= message) {
-            accNumbersStream += message;
+    public void log(Object msg) {
+        int message = (int)msg;
+        loggerType = Constants.INT;
+        intStreamOn = true;
+        if(Integer.MAX_VALUE - accIntStream >= message) {
+            accIntStream += message;
         } else {
-            accNumbersStream -= (Integer.MAX_VALUE - message);
+            accIntStream -= (Integer.MAX_VALUE - message);
             maxIntCounter++;
         }
     }
-
-    @Override
-    protected void log(byte message) {
-
+    public void clear() {
+        accIntStream = 0;
+        maxIntCounter = 0;
+        intStreamOn = false;
     }
 
     @Override
-    protected void log(char message) {
-
+    public String getData() {
+        String resultString = "";
+        if(maxIntCounter > 0) {
+            resultString = String.valueOf(accIntStream) + System.lineSeparator();
+            while(maxIntCounter != 0) {
+                resultString += String.valueOf(Integer.MAX_VALUE) + System.lineSeparator();
+                maxIntCounter--;
+            }
+        } else {
+            resultString = String.valueOf(accIntStream);
+        }
+        return resultString;
     }
 
-    @Override
-    protected void log(String message) {
-
-    }
-
-    @Override
-    protected void log(boolean message) {
-
-    }
-
-    @Override
-    protected void log(Object message) {
-
-    }
-
-    @Override
-    protected void flush() {
-
-    }
 }

@@ -20,17 +20,6 @@ public class Logger {
     private int counterOfSameSimultaneousStrings = 1;
     private boolean stringsStream = false;
 
-    private Saver saver;
-    private Decorator decorator;
-
-    public Logger(Saver saver) {
-        this.saver = saver;
-    }
-
-    public void setDecorator(Decorator decorator) {
-        this.decorator = decorator;
-    }
-
     public void log(int message) {
         checkType(INT);
         currentMessageType = INT;
