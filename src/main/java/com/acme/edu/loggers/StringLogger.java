@@ -1,7 +1,6 @@
 package com.acme.edu.loggers;
 
 import com.acme.edu.constants.Constants;
-import com.acme.edu.loggers.Logger;
 
 /**
  * Created by anton on 25.08.16.

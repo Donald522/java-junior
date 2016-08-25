@@ -1,5 +1,6 @@
-package com.acme.edu;
+package com.acme.edu.demo;
 
+import com.acme.edu.LoggerMaster;
 import com.acme.edu.savers.ConsoleSaver;
 
 /**
@@ -18,8 +19,6 @@ public class Runner {
         logger.log("asd");
         logger.log("asd");
         logger.log("tert");
-        logger.log((byte)11);
-        logger.log((byte)(Byte.MAX_VALUE-1));
         logger.log('a');
         logger.log('b');
         logger.log('c');
