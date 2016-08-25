@@ -7,13 +7,17 @@ import com.acme.edu.constants.Constants;
  */
 public class IntLogger extends Logger {
 
-    private int accIntStream = 0;
-    private int maxIntCounter = 0;
-    private boolean intStreamOn = false;
+    protected int accIntStream = 0;
+    protected int maxIntCounter = 0;
+    protected boolean intStreamOn = false;
 
     private static IntLogger itSelf = null;
 
-    private IntLogger() {}
+    protected int maxVaule;
+
+    protected IntLogger() {
+        this.maxVaule = Integer.MAX_VALUE;
+    }
 
     public static IntLogger getInstance() {
         if(itSelf == null) {
@@ -22,15 +26,19 @@ public class IntLogger extends Logger {
         return itSelf;
     }
 
+    protected void applyNumSettings() {
+        loggerType = Constants.INT;
+    }
+
     @Override
     public void log(Object msg) {
         int message = (int)msg;
-        loggerType = Constants.INT;
+        applyNumSettings();
         intStreamOn = true;
-        if(Integer.MAX_VALUE - accIntStream >= message) {
+        if(maxVaule - accIntStream >= message) {
             accIntStream += message;
         } else {
-            accIntStream -= (Integer.MAX_VALUE - message);
+            accIntStream -= (maxVaule - message);
             maxIntCounter++;
         }
     }
@@ -47,7 +55,7 @@ public class IntLogger extends Logger {
             if (maxIntCounter > 0) {
                 resultString = String.valueOf(accIntStream) + System.lineSeparator();
                 while (maxIntCounter != 0) {
-                    resultString += String.valueOf(Integer.MAX_VALUE) + System.lineSeparator();
+                    resultString += String.valueOf(maxVaule) + System.lineSeparator();
                     maxIntCounter--;
                 }
             } else {
