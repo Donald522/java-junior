@@ -12,6 +12,10 @@ public class Runner {
         logger.log(3);
         logger.flush();
         logger.log(4);
+        logger.log("asfgfg");
         logger.log("asd");
+        logger.log("asd");
+        logger.log("tert");
+        logger.flush();
     }
 }

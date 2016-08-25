@@ -5,9 +5,9 @@ package com.acme.edu;
  */
 public class LoggerMaster {
 
-    Loger logger;
-    Saver saver;
-    Decorator decorator;
+    private Loger logger;
+    private Saver saver;
+    private Decorator decorator;
 
     private boolean decoratorBydefault = true;
 
@@ -42,9 +42,11 @@ public class LoggerMaster {
                     flush();
                 }
                 logger = StringLogger.getInstance();
+                logger.setSaver(saver);
                 if(decoratorBydefault) {
                     decorator = StringDecorator.getInstance();
                 }
+                logger.setDecorator(decorator);
                 break;
             case "java.lang.Boolean":
                 System.out.println(message.getClass().getName());
