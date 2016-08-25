@@ -12,9 +12,6 @@ public class Runner {
         logger.log(3);
         logger.flush();
         logger.log(4);
-        logger.log(Integer.MAX_VALUE - 2);
-        logger.log(11);
-        logger.log(Integer.MAX_VALUE - 5);
-        logger.flush();
+        logger.log("asd");
     }
 }

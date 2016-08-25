@@ -23,6 +23,9 @@ public class LoggerMaster {
     public void log(Object message) {
         switch (message.getClass().getName()) {
             case "java.lang.Integer":
+                if((logger != null) && !(logger instanceof IntLogger)) {
+                    flush();
+                }
                 logger = IntLogger.getInstance();
                 if(decoratorBydefault) {
                     decorator = IntDecorator.getInstance();
@@ -35,7 +38,13 @@ public class LoggerMaster {
                 System.out.println(message.getClass().getName());
                 break;
             case "java.lang.String":
-                System.out.println(message.getClass().getName());
+                if((logger != null) && !(logger instanceof StringLogger)) {
+                    flush();
+                }
+                logger = StringLogger.getInstance();
+                if(decoratorBydefault) {
+                    decorator = StringDecorator.getInstance();
+                }
                 break;
             case "java.lang.Boolean":
                 System.out.println(message.getClass().getName());

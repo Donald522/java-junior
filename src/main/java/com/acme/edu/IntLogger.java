@@ -41,14 +41,16 @@ public class IntLogger extends Loger {
     @Override
     public String getData() {
         String resultString = "";
-        if(maxIntCounter > 0) {
-            resultString = String.valueOf(accIntStream) + System.lineSeparator();
-            while(maxIntCounter != 0) {
-                resultString += String.valueOf(Integer.MAX_VALUE) + System.lineSeparator();
-                maxIntCounter--;
+        if(intStreamOn) {
+            if (maxIntCounter > 0) {
+                resultString = String.valueOf(accIntStream) + System.lineSeparator();
+                while (maxIntCounter != 0) {
+                    resultString += String.valueOf(Integer.MAX_VALUE) + System.lineSeparator();
+                    maxIntCounter--;
+                }
+            } else {
+                resultString = String.valueOf(accIntStream);
             }
-        } else {
-            resultString = String.valueOf(accIntStream);
         }
         return resultString;
     }
