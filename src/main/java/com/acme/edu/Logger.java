@@ -10,17 +10,28 @@ public class Logger {
     private final static int OBJECT = 6;
     private final static int OBJECTPTR = 7;
 
-    private static int accNumbersStream = 0;
-    private static boolean numberStreamOn = false;
-    private static int currentMessageType = 0;
+    private int accNumbersStream = 0;
+    private boolean numberStreamOn = false;
+    private int currentMessageType = 0;
 
-    private static int maxNumberCounter = 0;
+    private int maxNumberCounter = 0;
 
-    private static String lastLoggedString = "";
-    private static int counterOfSameSimultaneousStrings = 1;
-    private static boolean stringsStream = false;
+    private String lastLoggedString = "";
+    private int counterOfSameSimultaneousStrings = 1;
+    private boolean stringsStream = false;
 
-    public static void log(int message) {
+    private Saver saver;
+    private Decorator decorator;
+
+    public Logger(Saver saver) {
+        this.saver = saver;
+    }
+
+    public void setDecorator(Decorator decorator) {
+        this.decorator = decorator;
+    }
+
+    public void log(int message) {
         checkType(INT);
         currentMessageType = INT;
         numberStreamOn = true;
@@ -32,7 +43,7 @@ public class Logger {
         }
     }
 
-    public static void log(byte message) {
+    public void log(byte message) {
         checkType(BYTE);
         currentMessageType = BYTE;
         numberStreamOn = true;
@@ -44,19 +55,19 @@ public class Logger {
         }
     }
 
-    public static void log(char message) {
+    public void log(char message) {
         checkType(CHAR);
         currentMessageType = CHAR;
         logMessagePrinter("char: " + message + System.lineSeparator());
     }
 
-    public static void log(boolean message) {
+    public void log(boolean message) {
         checkType(BOOLEAN);
         currentMessageType = BOOLEAN;
         logMessagePrinter("primitive: " + message + System.lineSeparator());
     }
 
-    public static void log(Object message) {
+    public void log(Object message) {
         if(message instanceof String) {
             checkType(STRING);
             currentMessageType = STRING;
@@ -75,13 +86,13 @@ public class Logger {
         }
     }
 
-    public static void log(int[] message) {
+    public void log(int[] message) {
         checkType(OBJECTPTR);
         logMessagePrinter("primitives array: ");
         logOneDimArray(message);
     }
 
-    public static void log(int[][] message) {
+    public void log(int[][] message) {
         checkType(OBJECTPTR);
         logMessagePrinter("primitives matrix: {" + System.lineSeparator());
         for(int[] array : message) {
@@ -91,7 +102,7 @@ public class Logger {
         logMessagePrinter("}" + System.lineSeparator());
     }
 
-    public static void log(Object[] message) {
+    public void log(Object[] message) {
         checkType(OBJECTPTR);
         String className = message.getClass().getName();
         String prefix = "primitives matrix: {" + System.lineSeparator();
@@ -107,7 +118,7 @@ public class Logger {
         System.out.println();
     }
 
-    private static void logOneDimArray(int[] array) {
+    private void logOneDimArray(int[] array) {
         checkType(OBJECTPTR);
         logMessagePrinter("{");
         for (int i = 0, messageLength = array.length; i < messageLength; i++) {
@@ -120,17 +131,17 @@ public class Logger {
         logMessagePrinter("}");
     }
 
-    private static void logMessagePrinter(String message) {
+    private void logMessagePrinter(String message) {
         System.out.print(message);
     }
 
-    private static void checkType(int messageType) {
+    private void checkType(int messageType) {
         if (messageType != currentMessageType) {
             flush();
         }
     }
 
-    public static void flush() {
+    public void flush() {
         if(numberStreamOn) {
             logMessagePrinter("primitive: " + accNumbersStream + System.lineSeparator());
             if(currentMessageType == INT) {
