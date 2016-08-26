@@ -16,6 +16,7 @@ public class IntLogger extends Logger {
     protected int maxVaule;
 
     protected IntLogger() {
+        this.loggerType = Constants.INT;
         this.maxVaule = Integer.MAX_VALUE;
     }
 
@@ -33,7 +34,7 @@ public class IntLogger extends Logger {
     @Override
     public void log(Object msg) {
         int message = (int)msg;
-        applyNumSettings();
+//        applyNumSettings();
         intStreamOn = true;
         if(maxVaule - accIntStream >= message) {
             accIntStream += message;

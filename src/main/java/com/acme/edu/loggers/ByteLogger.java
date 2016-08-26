@@ -10,6 +10,7 @@ public class ByteLogger extends IntLogger {
     private static ByteLogger itSelf = null;
 
     private ByteLogger() {
+        this.loggerType = Constants.BYTE;
         this.maxVaule = Byte.MAX_VALUE;
     }
 

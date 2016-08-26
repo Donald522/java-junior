@@ -14,7 +14,9 @@ public class StringLogger extends Logger {
 
     private static StringLogger itSelf = null;
 
-    private StringLogger() {}
+    private StringLogger() {
+        this.loggerType = Constants.STRING;
+    }
 
     public static StringLogger getInstance() {
         if(itSelf == null) {

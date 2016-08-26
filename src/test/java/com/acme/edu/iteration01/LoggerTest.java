@@ -11,7 +11,7 @@ import java.io.*;
 
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
-    LoggerFacad logger = new LoggerFacad(new ConsoleSaver());
+    LoggerFacad logger = new LoggerFacad(new ConsoleSaver(), message -> System.out.println("Second saver:  " + message));
 
     //region given
     @Before
@@ -40,7 +40,9 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region then
         assertSysoutContains("primitive: ");
-        assertSysoutEquals("primitive: 1" + System.lineSeparator() + "primitive: 0" + System.lineSeparator() + "primitive: -1" + System.lineSeparator());
+        assertSysoutContains("primitive: 1" + System.lineSeparator());
+        assertSysoutContains("primitive: 0" + System.lineSeparator());
+        assertSysoutContains("primitive: -1" + System.lineSeparator());
         //endregion
     }
 

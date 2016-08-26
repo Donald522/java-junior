@@ -17,7 +17,7 @@ public class LoggerFacad {
     private Saver[] savers;
     private Decorator decorator;
 
-    private boolean decoratorBydefault = true;
+    private boolean decoratorByDefault = true;
 
     public LoggerFacad(Saver... savers) {
         this.savers = new Saver [savers.length];
@@ -32,7 +32,19 @@ public class LoggerFacad {
      */
     public void setDecorator(Decorator decorator) {
         this.decorator = decorator;
-        decoratorBydefault = false;
+        decoratorByDefault = false;
+    }
+
+    private void defindloggerAndDecorator(Logger nextLogger, Decorator nextDecorator) {
+        if (logger != null) {
+            if (logger.getLoggerType() != nextLogger.getLoggerType()) {
+                flush();
+            }
+        }
+        logger = nextLogger;
+        if (decoratorByDefault) {
+            decorator = nextDecorator;
+        }
     }
 
     /**
@@ -44,56 +56,20 @@ public class LoggerFacad {
     public void log(Object message) {
 
         if(message instanceof Integer) {
-            if((logger != null) && !(logger instanceof IntLogger)) {
-                flush();
-            }
-            logger = IntLogger.getInstance();
-            if(decoratorBydefault) {
-                decorator = IntDecorator.getInstance();
-            }
+            defindloggerAndDecorator(IntLogger.getInstance(), IntDecorator.getInstance());
         } else if(message instanceof Byte) {
-            if((logger != null) && !(logger instanceof ByteLogger)) {
-                flush();
-            }
+            defindloggerAndDecorator(ByteLogger.getInstance(), IntDecorator.getInstance());
             message = ((Byte)message).intValue();
-            logger = ByteLogger.getInstance();
-            if(decoratorBydefault) {
-                decorator = IntDecorator.getInstance();
-            }
         } else if(message instanceof Character) {
-            if((logger != null) && !(logger instanceof CharLogger)) {
-                flush();
-            }
-            logger = CharLogger.getInstance();
-            if(decoratorBydefault) {
-                decorator = CharDecorator.getInstance();
-            }
+            defindloggerAndDecorator(CharLogger.getInstance(), CharDecorator.getInstance());
         } else if(message instanceof Boolean) {
-            if((logger != null) && !(logger instanceof BooleanLogger)) {
-                flush();
-            }
-            logger = BooleanLogger.getInstance();
-            if(decoratorBydefault) {
-                decorator = BooleanDecorator.getInstance();
-            }
+            defindloggerAndDecorator(BooleanLogger.getInstance(), BooleanDecorator.getInstance());
         } else if(message instanceof String) {
-            if((logger != null) && !(logger instanceof StringLogger)) {
-                flush();
-            }
-            logger = StringLogger.getInstance();
+            defindloggerAndDecorator(StringLogger.getInstance(), StringDecorator.getInstance());
             logger.setSaver(this.savers);
-            if(decoratorBydefault) {
-                decorator = StringDecorator.getInstance();
-            }
             logger.setDecorator(decorator);
         } else if(message instanceof Object) {
-            if((logger != null) && !(logger instanceof ObjectLogger)) {
-                flush();
-            }
-            logger = ObjectLogger.getInstance();
-            if(decoratorBydefault) {
-                decorator = ObjectDecorator.getInstance();
-            }
+            defindloggerAndDecorator(ObjectLogger.getInstance(), ObjectDecorator.getInstance());
         }
         logger.log(message);
     }

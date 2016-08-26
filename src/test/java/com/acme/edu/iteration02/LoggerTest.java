@@ -3,6 +3,7 @@ package com.acme.edu.iteration02;
 import com.acme.edu.LoggerFacad;
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
 import com.acme.edu.savers.ConsoleSaver;
+import com.acme.edu.savers.Saver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,12 @@ import java.io.IOException;
 
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
-    LoggerFacad logger = new LoggerFacad(new ConsoleSaver());
+    LoggerFacad logger = new LoggerFacad(new ConsoleSaver(), new Saver() {
+        @Override
+        public void save(String message) {
+            System.out.println("Second saver:  " + message);
+        }
+    });
 
     //region given
     @Before

@@ -42,4 +42,6 @@ public abstract class Logger {
      * @return - String which depends on previous stream of messages.
      */
     public abstract String getData();
+
+    public int getLoggerType() { return loggerType; }
 }
