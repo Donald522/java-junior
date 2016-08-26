@@ -1,6 +1,7 @@
 package com.acme.edu.constants;
 
 /**
+ * Types of messages.
  * Created by anton on 25.08.16.
  */
 public class Constants {

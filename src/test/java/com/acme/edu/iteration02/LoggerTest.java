@@ -1,6 +1,6 @@
 package com.acme.edu.iteration02;
 
-import com.acme.edu.LoggerMaster;
+import com.acme.edu.LoggerFacad;
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
 import com.acme.edu.savers.ConsoleSaver;
 import org.junit.After;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
-    LoggerMaster logger = new LoggerMaster(new ConsoleSaver());
+    LoggerFacad logger = new LoggerFacad(new ConsoleSaver());
 
     //region given
     @Before

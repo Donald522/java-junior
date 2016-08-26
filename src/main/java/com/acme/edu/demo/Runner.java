@@ -1,14 +1,15 @@
 package com.acme.edu.demo;
 
-import com.acme.edu.LoggerMaster;
+import com.acme.edu.LoggerFacad;
 import com.acme.edu.savers.ConsoleSaver;
 
 /**
+ * Runner for our own tests.
  * Created by anton on 25.08.16.
  */
 public class Runner {
     public static void main(String[] args) {
-        LoggerMaster logger = new LoggerMaster(new ConsoleSaver());
+        LoggerFacad logger = new LoggerFacad(new ConsoleSaver());
         logger.log(5);
         logger.log(15);
         logger.flush();
