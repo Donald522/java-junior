@@ -14,6 +14,6 @@ public class BooleanDecorator implements Decorator {
     }
     @Override
     public String decorate(String message) {
-        return "primitive: " + message + System.lineSeparator();
+        return "primitive: " + message;
     }
 }

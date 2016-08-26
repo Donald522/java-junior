@@ -11,7 +11,7 @@ import com.acme.edu.savers.Saver;
  * It connects decorator, saver and specific logger for each message.
  * Takes messages and save them in special format.
  */
-public class LoggerFacad {
+public class LoggerFacade {
 
     private Logger logger;
     private Saver[] savers;
@@ -19,7 +19,7 @@ public class LoggerFacad {
 
     private boolean decoratorByDefault = true;
 
-    public LoggerFacad(Saver... savers) {
+    public LoggerFacade(Saver... savers) {
         this.savers = new Saver [savers.length];
         for (int i = 0; i < savers.length; i++) {
             this.savers[i] = savers[i];

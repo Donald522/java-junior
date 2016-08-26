@@ -14,6 +14,6 @@ public class ObjectDecorator implements Decorator {
     }
     @Override
     public String decorate(String message) {
-        return "reference: " + message + System.lineSeparator();
+        return "reference: " + message;
     }
 }
