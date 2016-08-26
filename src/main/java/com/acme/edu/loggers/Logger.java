@@ -12,11 +12,14 @@ public abstract class Logger {
     protected int loggerType;
 
     protected Decorator decorator;
-    protected Saver saver;
+    protected Saver[] savers;
 
 
-    public void setSaver(Saver saver) {
-        this.saver = saver;
+    public void setSaver(Saver... savers) {
+        this.savers = new Saver [savers.length];
+        for (int i = 0; i < savers.length; i++) {
+            this.savers[i] = savers[i];
+        }
     }
 
     public void setDecorator(Decorator decorator) {

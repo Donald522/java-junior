@@ -1,6 +1,7 @@
 package com.acme.edu.loggers;
 
 import com.acme.edu.constants.Constants;
+import com.acme.edu.savers.Saver;
 
 /**
  * Created by anton on 25.08.16.
@@ -29,7 +30,10 @@ public class StringLogger extends Logger {
             counterOfSameSimultaneousStrings++;
         } else {
             if(stringsStream) {
-                saver.save(decorator.decorate(getData()));
+                String decoratedMessage = decorator.decorate(getData());
+                for(Saver saver : savers) {
+                    saver.save(decoratedMessage);
+                }
                 clear();
             }
             lastLoggedString = message.toString();

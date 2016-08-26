@@ -2,6 +2,7 @@ package com.acme.edu.demo;
 
 import com.acme.edu.LoggerFacad;
 import com.acme.edu.savers.ConsoleSaver;
+import com.acme.edu.savers.Saver;
 
 /**
  * Runner for our own tests.
@@ -9,7 +10,12 @@ import com.acme.edu.savers.ConsoleSaver;
  */
 public class Runner {
     public static void main(String[] args) {
-        LoggerFacad logger = new LoggerFacad(new ConsoleSaver());
+        LoggerFacad logger = new LoggerFacad(new ConsoleSaver(), new Saver() {
+            @Override
+            public void save(String message) {
+                System.out.println("Second saver:  " + message);
+            }
+        });
         logger.log(5);
         logger.log(15);
         logger.flush();
