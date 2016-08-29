@@ -11,15 +11,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-@Ignore
+
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
-    LoggerFacade logger = new LoggerFacade(new ConsoleSaver(), new Saver() {
-        @Override
-        public void save(String message) {
-            System.out.println("Second saver:  " + message);
-        }
-    });
+    private LoggerFacade logger = new LoggerFacade(new ConsoleSaver(), message -> System.out.println("Second saver:  " + message));
 
     //region given
     @Before
@@ -88,7 +83,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region when
         logger.log("str 1");
         logger.log((byte) 10);
-        logger.log((byte) Byte.MAX_VALUE);
+        logger.log(Byte.MAX_VALUE);
         logger.log("str 2");
         logger.log(0);
         logger.flush();
