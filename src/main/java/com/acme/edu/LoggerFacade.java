@@ -3,6 +3,7 @@ package com.acme.edu;
 import com.acme.edu.decorators.*;
 import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
+import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.loggers.*;
 import com.acme.edu.savers.Saver;
 
@@ -40,7 +41,7 @@ public class LoggerFacade {
         decoratorByDefault = false;
     }
 
-    private void defindloggerAndDecorator(Logger nextLogger, Decorator nextDecorator) throws AppendException, DecorateException {
+    private void defindloggerAndDecorator(Logger nextLogger, Decorator nextDecorator) throws LoggerException {
         if (logger != null && logger.getLoggerType() != nextLogger.getLoggerType()) {
             flush();
         }
@@ -56,7 +57,7 @@ public class LoggerFacade {
      * @param message - object of message, which is needed to log.
      *                Input types are: int, byte, String, boolean, Object, char.
      */
-    public void log(Object message) throws AppendException, DecorateException {
+    public void log(Object message) throws LoggerException {
 
         if(message instanceof Integer) {
             defindloggerAndDecorator(IntLogger.getInstance(), IntDecorator.getInstance());
@@ -71,27 +72,31 @@ public class LoggerFacade {
             defindloggerAndDecorator(StringLogger.getInstance(), StringDecorator.getInstance());
             logger.setSaver(this.savers);
             logger.setDecorator(decorator);
-        } else if(message instanceof Object) {
+        } else {
             defindloggerAndDecorator(ObjectLogger.getInstance(), ObjectDecorator.getInstance());
         }
-        logger.log(message);
+        try {
+            logger.log(message);
+        } catch (DecorateException | AppendException e) {
+            throw new LoggerException("Error in logging message", e);
+        }
     }
 
     /**
      * Create an event preceding the end of the association data of the same type into a single stream.
      */
-    public void flush() throws AppendException, DecorateException {
+    public void flush() throws LoggerException {
         String decoratedMessage;
         try {
             decoratedMessage = decorator.decorate(logger.getData());
         } catch (NullPointerException e) {
-            throw new DecorateException("Null pointer to decorator", e);
+            throw new LoggerException("Can't decorate the result. Null pointer to decorator", e);
         }
         for(Saver saver : savers) {
             try {
                 saver.save(decoratedMessage);
             } catch (AppendException e) {
-                throw e;
+                throw new LoggerException("Can't save the result", e);
             }
         }
         logger.clear();

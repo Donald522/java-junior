@@ -11,4 +11,6 @@ public class Constants {
     public final static int BOOLEAN = 4;
     public final static int STRING = 5;
     public final static int OBJECT = 6;
+
+    private Constants() {}
 }

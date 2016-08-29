@@ -4,6 +4,7 @@ import com.acme.edu.LoggerFacade;
 import com.acme.edu.decorators.IntDecorator;
 import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
+import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.loggers.IntLogger;
 import com.acme.edu.savers.ConsoleSaver;
 import com.acme.edu.savers.Saver;
@@ -44,178 +45,108 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //endregion
 
     @Test
-    public void shouldCallIntLoggerWhenLodInt() {
+    public void shouldCallIntLoggerWhenLodInt() throws LoggerException, AppendException {
         //region Given
         //endregion
 
         //region When
-        try {
-            loggerFacade.log(1);
-            loggerFacade.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        loggerFacade.log(1);
+        loggerFacade.flush();
         //endregion
 
         //region Then
-        try {
-            verify(mockitoSaver).save("primitive: 1");
-        } catch (AppendException e) {
-            e.printStackTrace();
-        }
+        verify(mockitoSaver).save("primitive: 1");
         //endregion
     }
 
     @Test
-    public void shouldCallStringLoggerWhenLodString() {
+    public void shouldCallStringLoggerWhenLodString() throws LoggerException, AppendException {
         //region Given
         //endregion
 
         //region When
-        try {
-            loggerFacade.log("123");
-            loggerFacade.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        loggerFacade.log("123");
+        loggerFacade.flush();
         //endregion
 
         //region Then
-        try {
-            verify(mockitoSaver).save("string: 123");
-        } catch (AppendException e) {
-            e.printStackTrace();
-        }
+        verify(mockitoSaver).save("string: 123");
         //endregion
     }
 
     @Test
-    public void shouldCallByteLoggerWhenLodByte() {
+    public void shouldCallByteLoggerWhenLodByte() throws LoggerException, AppendException {
         //region Given
         //endregion
 
         //region When
-        try {
-            loggerFacade.log((byte)4);
-            loggerFacade.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        loggerFacade.log((byte)4);
+        loggerFacade.flush();
         //endregion
 
         //region Then
-        try {
-            verify(mockitoSaver).save("primitive: 4");
-        } catch (AppendException e) {
-            e.printStackTrace();
-        }
+        verify(mockitoSaver).save("primitive: 4");
         //endregion
     }
 
     @Test
-    public void shouldCallCharLoggerWhenLodChar() {
+    public void shouldCallCharLoggerWhenLodChar() throws LoggerException, AppendException {
         //region Given
         //endregion
 
         //region When
-        try {
-            loggerFacade.log('s');
-            loggerFacade.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        loggerFacade.log('s');
+        loggerFacade.flush();
         //endregion
 
         //region Then
-        try {
-            verify(mockitoSaver).save("char: s");
-        } catch (AppendException e) {
-            e.printStackTrace();
-        }
+        verify(mockitoSaver).save("char: s");
         //endregion
     }
 
     @Test
-    public void shouldCallBooleanLoggerWhenLodBoolean() {
+    public void shouldCallBooleanLoggerWhenLodBoolean() throws LoggerException, AppendException {
         //region Given
         //endregion
 
         //region When
-        try {
-            loggerFacade.log(true);
-            loggerFacade.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        loggerFacade.log(true);
+        loggerFacade.flush();
         //endregion
 
         //region Then
-        try {
-            verify(mockitoSaver).save("primitive: true");
-        } catch (AppendException e) {
-            e.printStackTrace();
-        }
+        verify(mockitoSaver).save("primitive: true");
         //endregion
     }
 
     @Test
-    public void shouldCallObjectLoggerWhenLodObject() {
+    public void shouldCallObjectLoggerWhenLodObject() throws LoggerException, AppendException {
         //region Given
         Object object = new Object();
         //endregion
 
         //region When
-        try {
-            loggerFacade.log(object);
-            loggerFacade.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        loggerFacade.log(object);
+        loggerFacade.flush();
         //endregion
 
         //region Then
-        try {
-            verify(mockitoSaver).save("reference: " + object.toString());
-        } catch (AppendException e) {
-            e.printStackTrace();
-        }
+        verify(mockitoSaver).save("reference: " + object.toString());
         //endregion
     }
 
     @Test
-    public void shouldChooseTheBranchToLogInteger() {
+    public void shouldChooseTheBranchToLogInteger() throws DecorateException, LoggerException {
         //region Given
         IntDecorator stub = mock(IntDecorator.class);
         when(stub.decorate("123")).thenReturn("Integer 123");
         LoggerFacade loggerFacade = new LoggerFacade(new ConsoleSaver());
-        try {
-            loggerFacade.setDecorator(stub);
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        loggerFacade.setDecorator(stub);
         //endregion
 
         //region When
-        try {
-            loggerFacade.log(123);
-            loggerFacade.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        loggerFacade.log(123);
+        loggerFacade.flush();
         //endregion
 
         //region Then

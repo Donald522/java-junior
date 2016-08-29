@@ -4,6 +4,7 @@ import com.acme.edu.LoggerFacade;
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
 import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
+import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.savers.ConsoleSaver;
 import org.junit.After;
 import org.junit.Before;
@@ -31,20 +32,14 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //endregion
 
     @Test
-    public void shouldLogInteger() throws IOException {
+    public void shouldLogInteger() throws IOException, LoggerException {
         //region when
-        try {
-            logger.log(1);
-            logger.flush();
-            logger.log(0);
-            logger.flush();
-            logger.log(-1);
-            logger.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        logger.log(1);
+        logger.flush();
+        logger.log(0);
+        logger.flush();
+        logger.log(-1);
+        logger.flush();
         //endregion
 
         //region then
@@ -56,20 +51,15 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogByte() throws IOException {
+    public void shouldLogByte() throws IOException, LoggerException {
         //region when
-        try {
-            logger.log((byte)1);
-            logger.flush();
-            logger.log((byte)0);
-            logger.flush();
-            logger.log((byte)-1);
-            logger.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        logger.log((byte)1);
+        logger.flush();
+        logger.log((byte)0);
+        logger.flush();
+        logger.log((byte)-1);
+        logger.flush();
+
         //endregion
 
         //region then
@@ -82,18 +72,12 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
 
     @Test
-    public void shouldLogChar() throws IOException {
+    public void shouldLogChar() throws IOException, LoggerException {
         //region when
-        try {
-            logger.log('a');
-            logger.flush();
-            logger.log('b');
-            logger.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        logger.log('a');
+        logger.flush();
+        logger.log('b');
+        logger.flush();
         //endregion
 
         //region then
@@ -104,17 +88,11 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogString() throws IOException {
+    public void shouldLogString() throws IOException, LoggerException {
         //region when
-        try {
-            logger.log("test string 1");
-            logger.log("other str");
-            logger.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        logger.log("test string 1");
+        logger.log("other str");
+        logger.flush();
         //endregion
 
         //region then
@@ -125,18 +103,12 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogBoolean() throws IOException {
+    public void shouldLogBoolean() throws IOException, LoggerException {
         //region when
-        try{
-            logger.log(true);
-            logger.flush();
-            logger.log(false);
-            logger.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        logger.log(true);
+        logger.flush();
+        logger.log(false);
+        logger.flush();
         //endregion
 
         //region then
@@ -147,16 +119,10 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
-    public void shouldLogReference() throws IOException {
+    public void shouldLogReference() throws IOException, LoggerException {
         //region when
-        try{
-            logger.log(new Object());
-            logger.flush();
-        } catch (AppendException e) {
-            e.printStackTrace();
-        } catch (DecorateException e) {
-            e.printStackTrace();
-        }
+        logger.log(new Object());
+        logger.flush();
         //endregion
 
         //region then
