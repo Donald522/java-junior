@@ -1,11 +1,16 @@
 package com.acme.edu;
 
-import com.acme.edu.decorators.*;
+import com.acme.edu.decorators.Decorator;
 import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.exceptions.LoggerException;
-import com.acme.edu.loggers.*;
-import com.acme.edu.savers.ConsoleSaver;
+import com.acme.edu.loggers.BooleanLogger;
+import com.acme.edu.loggers.ByteLogger;
+import com.acme.edu.loggers.CharLogger;
+import com.acme.edu.loggers.IntLogger;
+import com.acme.edu.loggers.Logger;
+import com.acme.edu.loggers.ObjectLogger;
+import com.acme.edu.loggers.StringLogger;
 import com.acme.edu.savers.Saver;
 
 import java.util.ArrayList;
@@ -22,11 +27,8 @@ import static com.acme.edu.constants.Constants.*;
 public class LoggerFacade {
 
     private ArrayList<Logger> loggers;
-    private Logger logger;
+    private Logger currentLogger;
     private Saver[] savers;
-
-    private int currentLoggerType;
-    private boolean decoratorByDefault = true;
 
     /**
      * Constructor for LoggerFacade
@@ -38,23 +40,17 @@ public class LoggerFacade {
     public LoggerFacade(Saver... savers) throws LoggerException {
 
         loggers = new ArrayList<>();
-        try {
-            addLoggers(
-                    new IntLogger(),
-                    new ByteLogger(),
-                    new CharLogger(),
-                    new BooleanLogger(),
-                    new StringLogger(),
-                    new ObjectLogger()
-            );
-        } catch (LoggerException e) {
-            throw e;
-        }
+        addLoggers(
+                new IntLogger(),
+                new ByteLogger(),
+                new CharLogger(),
+                new BooleanLogger(),
+                new StringLogger(),
+                new ObjectLogger()
+        );
 
         this.savers = new Saver [savers.length];
-        for (int i = 0; i < savers.length; i++) {
-            this.savers[i] = savers[i];
-        }
+        System.arraycopy(savers, 0, this.savers, 0, savers.length);
     }
 
     /**
@@ -86,11 +82,10 @@ public class LoggerFacade {
      * @throws LoggerException
      */
     private void checkTypeAndSetLogger(int type) throws LoggerException {
-        currentLoggerType = type;
-        if(logger != null && logger.getLoggerType() != currentLoggerType) {
+        if(currentLogger != null && currentLogger.getLoggerType() != type) {
             flush();
         }
-        logger = findLogger(type);
+        currentLogger = findLogger(type);
     }
 
     /**
@@ -98,25 +93,26 @@ public class LoggerFacade {
      * @param message
      */
     private Object setCurrentLogger(Object message) throws LoggerException {
+        Object msg = message;
         if(message instanceof Integer) {
             checkTypeAndSetLogger(INT);
         } else if(message instanceof Byte) {
             checkTypeAndSetLogger(BYTE);
-            message = ((Byte)message).intValue();
+            msg = ((Byte)message).intValue();
         } else if(message instanceof Character) {
             checkTypeAndSetLogger(CHAR);
         } else if(message instanceof Boolean) {
             checkTypeAndSetLogger(BOOLEAN);
         } else if(message instanceof String) {
             checkTypeAndSetLogger(STRING);
-            if (((StringLogger)logger).getLastLoggedString() != null &&
-                    !(((StringLogger)logger).getLastLoggedString().equals(message))) {
+            if (((StringLogger)currentLogger).getLastLoggedString() != null &&
+                    !(((StringLogger)currentLogger).getLastLoggedString().equals(message))) {
                 flush();
             }
         } else {
             checkTypeAndSetLogger(OBJECT);
         }
-        return message;
+        return msg;
     }
     /**
      * Log message by type.
@@ -130,10 +126,12 @@ public class LoggerFacade {
             throw new DecorateException("Attempt to set null decorator");
         }
         Object typedMessage = setCurrentLogger(message);
-        if (!logger.getDecorator().equals(decorator)) {
+        if (currentLogger != null && currentLogger.getDecorator() != null && !(decorator.equals(currentLogger.getDecorator()))) {
             flush();
         }
-        logger.setDecorator(decorator);
+        if (currentLogger != null) {
+            currentLogger.setDecorator(decorator);
+        }
         logWithCurrentLogger(typedMessage);
     }
     /**
@@ -153,7 +151,7 @@ public class LoggerFacade {
      */
     private void logWithCurrentLogger(Object message) throws  LoggerException {
         try {
-            logger.log(message);
+            currentLogger.log(message);
         } catch (LoggerException e) {
             throw new LoggerException("Error in logging message", e);
         }
@@ -181,7 +179,7 @@ public class LoggerFacade {
     public void flush() throws LoggerException {
         String decoratedMessage;
         try {
-            decoratedMessage = logger.getData();
+            decoratedMessage = currentLogger.getData();
         } catch (NullPointerException e) {
             throw new LoggerException("Can't decorate the result. Null pointer to decorator", e);
         }
@@ -192,6 +190,6 @@ public class LoggerFacade {
                 throw new LoggerException("Can't save the result", e);
             }
         }
-        logger.clear();
+        currentLogger.clear();
     }
 }

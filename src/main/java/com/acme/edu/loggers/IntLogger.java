@@ -1,18 +1,18 @@
 package com.acme.edu.loggers;
 
 import com.acme.edu.constants.Constants;
-import com.acme.edu.decorators.Decorator;
 
 /**
+ * Class for logging int
  * Created by anton on 25.08.16.
  */
 public class IntLogger extends Logger {
 
-    protected int accIntStream = 0;
-    protected int maxIntCounter = 0;
-    protected boolean intStreamOn = false;
+    private int accIntStream = 0;
+    private int maxIntCounter = 0;
+    private boolean intStreamOn = false;
 
-    protected int maxVaule;
+    int maxVaule;
 
     public IntLogger() {
         setDefaultDecorator();

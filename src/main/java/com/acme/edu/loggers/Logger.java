@@ -1,9 +1,6 @@
 package com.acme.edu.loggers;
 
-import com.acme.edu.exceptions.AppendException;
-import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.exceptions.LoggerException;
-import com.acme.edu.savers.Saver;
 import com.acme.edu.decorators.Decorator;
 
 /**
@@ -12,7 +9,7 @@ import com.acme.edu.decorators.Decorator;
  */
 public abstract class Logger {
 
-    protected int loggerType;
+    int loggerType;
 
     protected Decorator decorator;
 

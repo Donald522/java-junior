@@ -1,9 +1,7 @@
 package com.acme.edu.moduleTest;
 
 import com.acme.edu.LoggerFacade;
-import com.acme.edu.constants.Constants;
-import com.acme.edu.exceptions.AppendException;
-import com.acme.edu.exceptions.DecorateException;
+import com.acme.edu.decorators.Decorator;
 import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.loggers.ByteLogger;
 import com.acme.edu.loggers.IntLogger;
@@ -19,8 +17,6 @@ import static com.acme.edu.constants.Constants.*;
 import static org.mockito.Mockito.*;
 
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
-
-import javax.print.DocFlavor;
 import java.io.IOException;
 
 /**
@@ -54,6 +50,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region When
         loggerFacade.log(1);
+        loggerFacade.flush();
         //endregion
 
         //region Then
@@ -88,6 +85,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region When
         loggerFacade.log((byte)4);
+        loggerFacade.flush();
         //endregion
 
         //region Then
@@ -221,6 +219,25 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
         //region Then
         assertSysoutContains("IntegerLoggerStub");
+        //endregion
+    }
+
+    @Test
+    public void shouldSetDecorator() throws LoggerException {
+
+        //region Given
+        LoggerFacade loggerFacade = new LoggerFacade(new ConsoleSaver());
+        loggerFacade.addLoggers(new IntLogger(), new StringLogger());
+
+        //endregion
+
+        //region When
+        loggerFacade.log(5, new Decorator("setDecoratorPrefixTest: ", "Postfix"));
+        loggerFacade.flush();
+        //endregion
+
+        //region Then
+        assertSysoutContains("setDecoratorPrefixTest: 5 Postfix");
         //endregion
     }
 

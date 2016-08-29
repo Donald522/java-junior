@@ -4,7 +4,6 @@ import com.acme.edu.constants.Constants;
 import com.acme.edu.decorators.Decorator;
 import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
-import com.acme.edu.savers.Saver;
 
 /**
  * Created by anton on 25.08.16.
@@ -13,7 +12,6 @@ public class StringLogger extends Logger {
 
     private  String lastLoggedString = null;
     private int counterOfSameSimultaneousStrings = 1;
-//    private boolean stringsStream = false;
 
     public StringLogger() {
         setDefaultDecorator();
@@ -35,14 +33,12 @@ public class StringLogger extends Logger {
             counterOfSameSimultaneousStrings++;
         } else {
             lastLoggedString = message.toString();
-//            stringsStream = true;
         }
     }
 
     @Override
     public void clear() {
         lastLoggedString = null;
-//        stringsStream = false;
         counterOfSameSimultaneousStrings = 1;
     }
 
