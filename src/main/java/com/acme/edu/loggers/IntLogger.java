@@ -1,6 +1,7 @@
 package com.acme.edu.loggers;
 
 import com.acme.edu.constants.Constants;
+import com.acme.edu.decorators.Decorator;
 
 /**
  * Created by anton on 25.08.16.
@@ -11,21 +12,18 @@ public class IntLogger extends Logger {
     protected int maxIntCounter = 0;
     protected boolean intStreamOn = false;
 
-//    private static IntLogger itSelf = null;
-
     protected int maxVaule;
 
     public IntLogger() {
+        setDefaultDecorator();
         this.loggerType = Constants.INT;
         this.maxVaule = Integer.MAX_VALUE;
     }
-//
-//    public static IntLogger getInstance() {
-//        if(itSelf == null) {
-//            itSelf = new IntLogger();
-//        }
-//        return itSelf;
-//    }
+
+    @Override
+    protected void setDefaultDecorator() {
+        this.decorator = new Decorator("reference: ", "");
+    }
 
     @Override
     public void log(Object msg) {
@@ -60,7 +58,7 @@ public class IntLogger extends Logger {
                 resultString = String.valueOf(accIntStream);
             }
         }
-        return resultString;
+        return decorator.decorate(resultString);
     }
 
 }

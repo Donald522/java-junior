@@ -13,6 +13,6 @@ public abstract class SimpleLogger extends Logger {
 
     @Override
     public String getData() {
-        return stateLogger;
+        return decorator.decorate(stateLogger);
     }
 }

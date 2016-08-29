@@ -15,19 +15,24 @@ public abstract class Logger {
     protected int loggerType;
 
     protected Decorator decorator;
-    protected Saver[] savers;
+//    protected Saver[] savers;
 
-
-    public void setSaver(Saver... savers) {
-        this.savers = new Saver [savers.length];
-        for (int i = 0; i < savers.length; i++) {
-            this.savers[i] = savers[i];
-        }
+    protected void setDefaultDecorator() {
+        this.decorator = new Decorator("primitive: ", "");
     }
+
+//    public void setSaver(Saver... savers) {
+//        this.savers = new Saver [savers.length];
+//        for (int i = 0; i < savers.length; i++) {
+//            this.savers[i] = savers[i];
+//        }
+//    }
 
     public void setDecorator(Decorator decorator) {
         this.decorator = decorator;
     }
+
+    public Decorator getDecorator() { return this.decorator; }
 
     /**
      * The primary method of processing a message in accordance with the received message type.

@@ -5,6 +5,7 @@ import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.loggers.*;
+import com.acme.edu.savers.ConsoleSaver;
 import com.acme.edu.savers.Saver;
 
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ public class LoggerFacade {
     private ArrayList<Logger> loggers;
     private Logger logger;
     private Saver[] savers;
-    private Decorator decorator;
 
     private int currentLoggerType;
     private boolean decoratorByDefault = true;
@@ -56,18 +56,16 @@ public class LoggerFacade {
     }
 
     /**
-     * Public method to add the passed loggers to the pool
+     * Public method to add the passed loggers to the pool.
      * If passed to the method loggers have the same type as loggers are already in the pool, they will be replaced.
      * @param loggers
      * @throws LoggerException
      */
     public void addLoggers(Logger... loggers) throws LoggerException {
-        boolean attemptToSetNullLogger = false;
         Logger existedLogger;
         for(Logger logger : loggers) {
             if(logger == null) {
-                attemptToSetNullLogger = true;
-                continue;
+                throw new LoggerException("There was attempt to add null Logger. It was canceled.");
             }
             try {
                 existedLogger = findLogger(logger.getLoggerType());
@@ -76,23 +74,63 @@ public class LoggerFacade {
             catch (LoggerException e) {}
             this.loggers.add(logger);
         }
-        if(attemptToSetNullLogger) {
-            throw new LoggerException("There was attempt to add null Logger. It was canceled.");
-        }
     }
 
     /**
+     * Set the current type of logger and logger instance. Handle the type changing and flush if it is.
+     * @param type
+     * @throws LoggerException
+     */
+    private void checkTypeAndSetLogger(int type) throws LoggerException {
+        currentLoggerType = type;
+        if(logger != null && logger.getLoggerType() != currentLoggerType) {
+            flush();
+        }
+        logger = findLogger(type);
+    }
+
+    /**
+     * Choose current logger according to the type of message.
+     * @param message
+     */
+    private void setCurrentLogger(Object message) throws LoggerException {
+        if(message instanceof Integer) {
+            checkTypeAndSetLogger(INT);
+        } else if(message instanceof Byte) {
+            checkTypeAndSetLogger(BYTE);
+            message = ((Byte)message).intValue();
+        } else if(message instanceof Character) {
+            checkTypeAndSetLogger(CHAR);
+        } else if(message instanceof Boolean) {
+            checkTypeAndSetLogger(BOOLEAN);
+        } else if(message instanceof String) {
+            checkTypeAndSetLogger(STRING);
+            if (((StringLogger)logger).getLastLoggedString() != null &&
+                    ((StringLogger)logger).getLastLoggedString() != (String)message) {
+                flush();
+            }
+        } else {
+            checkTypeAndSetLogger(OBJECT);
+        }
+    }
+    /**
+     * Log message by type.
      * Use your own decorator before log message.
+     * @param message - object of message, which is needed to log.
+     *                Input types are: int, byte, String, boolean, Object, char.
      * @param decorator - object of type Decorator, which decorate each message.
      */
-    public void setDecorator(Decorator decorator) throws DecorateException {
+    public void log(Object message, Decorator decorator) throws LoggerException {
         if(decorator == null) {
             throw new DecorateException("Attempt to set null decorator");
         }
-        this.decorator = decorator;
-        decoratorByDefault = false;
+        setCurrentLogger(message);
+        if (logger.getDecorator().equals(decorator)) {
+            flush();
+        }
+        logger.setDecorator(decorator);
+        logWithCurrentLogger(message);
     }
-
     /**
      * Log message by type.
      *
@@ -100,63 +138,20 @@ public class LoggerFacade {
      *                Input types are: int, byte, String, boolean, Object, char.
      */
     public void log(Object message) throws LoggerException {
-
-        if(message instanceof Integer) {
-            setAndCheckType(INT);
-            logger = findLogger(INT);
-            if (decoratorByDefault) {
-                decorator = IntDecorator.getInstance();
-            }
-        } else if(message instanceof Byte) {
-            setAndCheckType(BYTE);
-            logger = findLogger(BYTE);
-            if (decoratorByDefault) {
-                decorator = IntDecorator.getInstance();
-            }
-            message = ((Byte)message).intValue();
-        } else if(message instanceof Character) {
-            setAndCheckType(CHAR);
-            logger = findLogger(CHAR);
-            if (decoratorByDefault) {
-                decorator = CharDecorator.getInstance();
-            }
-        } else if(message instanceof Boolean) {
-            setAndCheckType(BOOLEAN);
-            logger = findLogger(BOOLEAN);
-            if (decoratorByDefault) {
-                decorator = BooleanDecorator.getInstance();
-            }
-        } else if(message instanceof String) {
-            setAndCheckType(STRING);
-            logger = findLogger(STRING);
-            if (decoratorByDefault) {
-                decorator = StringDecorator.getInstance();
-            }
-            logger.setDecorator(decorator);
-            logger.setSaver(savers);
-        } else {
-            setAndCheckType(OBJECT);
-            logger = findLogger(OBJECT);
-            if (decoratorByDefault) {
-                decorator = ObjectDecorator.getInstance();
-            }
-        }
-        try {
-            logger.log(message);
-        } catch (DecorateException | AppendException e) {
-            throw new LoggerException("Error in logging message", e);
-        }
+        setCurrentLogger(message);
+        logWithCurrentLogger(message);
     }
 
     /**
-     * Set the current type og logger. Handle the type changing and flush if it is.
-     * @param type
+     * Log message with current logger.
+     * @param message
      * @throws LoggerException
      */
-    private void setAndCheckType(int type) throws LoggerException {
-        currentLoggerType = type;
-        if(logger != null && logger.getLoggerType() != currentLoggerType) {
-            flush();
+    private void logWithCurrentLogger(Object message) throws  LoggerException {
+        try {
+            logger.log(message);
+        } catch (LoggerException e) {
+            throw new LoggerException("Error in logging message", e);
         }
     }
 
@@ -186,7 +181,7 @@ public class LoggerFacade {
     public void flush() throws LoggerException {
         String decoratedMessage;
         try {
-            decoratedMessage = decorator.decorate(logger.getData());
+            decoratedMessage = logger.getData();
         } catch (NullPointerException e) {
             throw new LoggerException("Can't decorate the result. Null pointer to decorator", e);
         }
@@ -199,5 +194,4 @@ public class LoggerFacade {
         }
         logger.clear();
     }
-
 }

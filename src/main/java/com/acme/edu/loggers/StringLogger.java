@@ -1,6 +1,7 @@
 package com.acme.edu.loggers;
 
 import com.acme.edu.constants.Constants;
+import com.acme.edu.decorators.Decorator;
 import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.savers.Saver;
@@ -12,52 +13,36 @@ public class StringLogger extends Logger {
 
     private  String lastLoggedString = null;
     private int counterOfSameSimultaneousStrings = 1;
-    private boolean stringsStream = false;
-
-//    private static StringLogger itSelf = null;
+//    private boolean stringsStream = false;
 
     public StringLogger() {
+        setDefaultDecorator();
         this.loggerType = Constants.STRING;
     }
 
-//    public static StringLogger getInstance() {
-//        if(itSelf == null) {
-//            itSelf = new StringLogger();
-//        }
-//        return itSelf;
-//    }
+    public String getLastLoggedString() {
+        return lastLoggedString;
+    }
+
+    @Override
+    protected void setDefaultDecorator() {
+        this.decorator = new Decorator("string: ", "");
+    }
 
     @Override
     public void log(Object message) throws DecorateException, AppendException {
-        loggerType = Constants.STRING;
         if(message.equals(lastLoggedString)) {
             counterOfSameSimultaneousStrings++;
         } else {
-            if(stringsStream) {
-                String decoratedMessage;
-                try {
-                    decoratedMessage = decorator.decorate(getData());
-                } catch (NullPointerException e) {
-                    throw new DecorateException("Null pointer to decorator", e);
-                }
-                for(Saver saver : savers) {
-                    try {
-                        saver.save(decoratedMessage);
-                    } catch (AppendException e) {
-                        throw e;
-                    }
-                }
-                clear();
-            }
             lastLoggedString = message.toString();
-            stringsStream = true;
+//            stringsStream = true;
         }
     }
 
     @Override
     public void clear() {
         lastLoggedString = null;
-        stringsStream = false;
+//        stringsStream = false;
         counterOfSameSimultaneousStrings = 1;
     }
 
@@ -69,6 +54,6 @@ public class StringLogger extends Logger {
         } else {
             resultString = lastLoggedString;
         }
-        return resultString;
+        return decorator.decorate(resultString);
     }
 }

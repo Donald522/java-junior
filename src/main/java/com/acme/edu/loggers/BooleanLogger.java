@@ -1,6 +1,7 @@
 package com.acme.edu.loggers;
 
 import com.acme.edu.constants.Constants;
+import com.acme.edu.decorators.Decorator;
 
 import javax.swing.*;
 
@@ -9,15 +10,9 @@ import javax.swing.*;
  */
 public class BooleanLogger extends SimpleLogger {
     public BooleanLogger() {
+        setDefaultDecorator();
         this.loggerType = Constants.BOOLEAN;
     }
-//    private static BooleanLogger itSelf;
-//    public static BooleanLogger getInstance() {
-//        if(itSelf == null) {
-//            itSelf = new BooleanLogger();
-//        }
-//        return itSelf;
-//    }
 
     @Override
     public void log(Object message) {
