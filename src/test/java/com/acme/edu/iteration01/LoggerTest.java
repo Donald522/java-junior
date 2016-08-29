@@ -12,7 +12,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
-
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
     private LoggerFacade logger;

@@ -33,7 +33,6 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         captureSysout();
         mockitoSaver = mock(Saver.class);
         loggerFacade = new LoggerFacade(mockitoSaver);
-
     }
 
     @After
