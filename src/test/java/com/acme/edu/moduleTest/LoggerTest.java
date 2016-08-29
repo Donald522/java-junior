@@ -28,7 +28,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     private LoggerFacade loggerFacade;
     //region given
     @Before
-    public void setUpSystemOut() throws IOException {
+    public void setUpSystemOut() throws IOException, LoggerException {
         resetOut();
         captureSysout();
         mockitoSaver = mock(Saver.class);
@@ -183,7 +183,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test(expected=LoggerException.class)
     public void shouldThrowExceptionWhenNullPassedToMethod() throws LoggerException {
         //region When
-        loggerFacade.addLoggers(null);
+        loggerFacade.addLoggers((Logger[]) null);
         //endregion
     }
 

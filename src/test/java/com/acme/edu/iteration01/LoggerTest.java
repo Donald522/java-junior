@@ -15,11 +15,12 @@ import java.io.*;
 
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
-    private LoggerFacade logger = new LoggerFacade(new ConsoleSaver(), message -> System.out.println("Second saver:  " + message));
+    private LoggerFacade logger;
 
     //region given
     @Before
-    public void setUpSystemOut() throws IOException {
+    public void setUpSystemOut() throws IOException, LoggerException {
+        logger = new LoggerFacade(new ConsoleSaver(), message -> System.out.println("Second saver:  " + message));
         resetOut();
         captureSysout();
 
