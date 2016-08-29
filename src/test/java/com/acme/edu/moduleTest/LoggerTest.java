@@ -1,6 +1,7 @@
 package com.acme.edu.moduleTest;
 
 import com.acme.edu.LoggerFacade;
+import com.acme.edu.constants.Constants;
 import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.exceptions.LoggerException;
@@ -14,10 +15,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.acme.edu.constants.Constants.*;
 import static org.mockito.Mockito.*;
 
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
 
+import javax.print.DocFlavor;
 import java.io.IOException;
 
 /**
@@ -44,45 +47,51 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldCallIntLoggerWhenLodInt() throws LoggerException {
         //region Given
+        Logger intLogger = mock(IntLogger.class);
+        when(intLogger.getLoggerType()).thenReturn(INT);
+        loggerFacade.addLoggers(intLogger);
         //endregion
 
         //region When
         loggerFacade.log(1);
-        loggerFacade.flush();
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("primitive: 1");
+        verify(intLogger).log(1);
         //endregion
     }
 
     @Test
     public void shouldCallStringLoggerWhenLodString() throws LoggerException {
         //region Given
+        Logger mockLogger = mock(StringLogger.class);
+        when(mockLogger.getLoggerType()).thenReturn(STRING);
+        loggerFacade.addLoggers(mockLogger);
         //endregion
 
         //region When
-        loggerFacade.log("123");
-        loggerFacade.flush();
+        loggerFacade.log("test string");
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("string: 123");
+        verify(mockLogger).log("test string");
         //endregion
     }
 
     @Test
     public void shouldCallByteLoggerWhenLodByte() throws LoggerException {
         //region Given
+        Logger mockLogger = mock(ByteLogger.class);
+        when(mockLogger.getLoggerType()).thenReturn(BYTE);
+        loggerFacade.addLoggers(mockLogger);
         //endregion
 
         //region When
         loggerFacade.log((byte)4);
-        loggerFacade.flush();
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("primitive: 4");
+        verify(mockLogger).log(4);
         //endregion
     }
 
