@@ -93,7 +93,7 @@ public class LoggerFacade {
      * Choose current logger according to the type of message.
      * @param message
      */
-    private void setCurrentLogger(Object message) throws LoggerException {
+    private Object setCurrentLogger(Object message) throws LoggerException {
         if(message instanceof Integer) {
             checkTypeAndSetLogger(INT);
         } else if(message instanceof Byte) {
@@ -112,6 +112,7 @@ public class LoggerFacade {
         } else {
             checkTypeAndSetLogger(OBJECT);
         }
+        return message;
     }
     /**
      * Log message by type.
@@ -124,12 +125,12 @@ public class LoggerFacade {
         if(decorator == null) {
             throw new DecorateException("Attempt to set null decorator");
         }
-        setCurrentLogger(message);
-        if (logger.getDecorator().equals(decorator)) {
+        Object typedMessage = setCurrentLogger(message);
+        if (!logger.getDecorator().equals(decorator)) {
             flush();
         }
         logger.setDecorator(decorator);
-        logWithCurrentLogger(message);
+        logWithCurrentLogger(typedMessage);
     }
     /**
      * Log message by type.
@@ -138,8 +139,7 @@ public class LoggerFacade {
      *                Input types are: int, byte, String, boolean, Object, char.
      */
     public void log(Object message) throws LoggerException {
-        setCurrentLogger(message);
-        logWithCurrentLogger(message);
+        logWithCurrentLogger(setCurrentLogger(message));
     }
 
     /**

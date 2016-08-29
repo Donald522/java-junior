@@ -21,11 +21,6 @@ public class IntLogger extends Logger {
     }
 
     @Override
-    protected void setDefaultDecorator() {
-        this.decorator = new Decorator("reference: ", "");
-    }
-
-    @Override
     public void log(Object msg) {
         int message = (int)msg;
         intStreamOn = true;
@@ -50,10 +45,11 @@ public class IntLogger extends Logger {
         if(intStreamOn) {
             if (maxIntCounter > 0) {
                 resultString = String.valueOf(accIntStream) + System.lineSeparator();
-                while (maxIntCounter != 0) {
+                while (maxIntCounter != 1) {
                     resultString += String.valueOf(maxVaule) + System.lineSeparator();
                     maxIntCounter--;
                 }
+                resultString += String.valueOf(maxVaule);
             } else {
                 resultString = String.valueOf(accIntStream);
             }
