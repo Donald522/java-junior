@@ -2,6 +2,8 @@ package com.acme.edu.iteration02;
 
 import com.acme.edu.LoggerFacade;
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
+import com.acme.edu.exceptions.AppendException;
+import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.savers.ConsoleSaver;
 import com.acme.edu.savers.Saver;
 import org.junit.After;
@@ -10,7 +12,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
-@Ignore
+
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
     LoggerFacade logger = new LoggerFacade(new ConsoleSaver(), new Saver() {
@@ -37,12 +39,18 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogSequentIntegersAsSum() throws IOException {
         //region when
-        logger.log("str 1");
-        logger.log(1);
-        logger.log(2);
-        logger.log("str 2");
-        logger.log(0);
-        logger.flush();
+        try {
+            logger.log("str 1");
+            logger.log(1);
+            logger.log(2);
+            logger.log("str 2");
+            logger.log(0);
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
@@ -60,12 +68,18 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogCorrectlyIntegerOverflowWhenSequentIntegers() {
         //region when
-        logger.log("str 1");
-        logger.log(10);
-        logger.log(Integer.MAX_VALUE);
-        logger.log("str 2");
-        logger.log(0);
-        logger.flush();
+        try {
+            logger.log("str 1");
+            logger.log(10);
+            logger.log(Integer.MAX_VALUE);
+            logger.log("str 2");
+            logger.log(0);
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
@@ -85,12 +99,18 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogCorrectlyByteOverflowWhenSequentBytes() {
         //region when
-        logger.log("str 1");
-        logger.log((byte) 10);
-        logger.log((byte) Byte.MAX_VALUE);
-        logger.log("str 2");
-        logger.log(0);
-        logger.flush();
+        try {
+            logger.log("str 1");
+            logger.log((byte) 10);
+            logger.log((byte) Byte.MAX_VALUE);
+            logger.log("str 2");
+            logger.log(0);
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
@@ -111,15 +131,21 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogSameSubsequentStringsWithoutRepeat() throws IOException {
         //region when
-        logger.log("str 1");
-        logger.log("str 2");
-        logger.log("str 2");
-        logger.log(0);
-        logger.log("str 2");
-        logger.log("str 3");
-        logger.log("str 3");
-        logger.log("str 3");
-        logger.flush();
+        try {
+            logger.log("str 1");
+            logger.log("str 2");
+            logger.log("str 2");
+            logger.log(0);
+            logger.log("str 2");
+            logger.log("str 3");
+            logger.log("str 3");
+            logger.log("str 3");
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then

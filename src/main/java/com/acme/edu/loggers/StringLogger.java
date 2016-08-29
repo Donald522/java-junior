@@ -1,6 +1,8 @@
 package com.acme.edu.loggers;
 
 import com.acme.edu.constants.Constants;
+import com.acme.edu.exceptions.AppendException;
+import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.savers.Saver;
 
 /**
@@ -26,15 +28,24 @@ public class StringLogger extends Logger {
     }
 
     @Override
-    public void log(Object message) {
+    public void log(Object message) throws DecorateException, AppendException {
         loggerType = Constants.STRING;
         if(message.equals(lastLoggedString)) {
             counterOfSameSimultaneousStrings++;
         } else {
             if(stringsStream) {
-                String decoratedMessage = decorator.decorate(getData());
+                String decoratedMessage;
+                try {
+                    decoratedMessage = decorator.decorate(getData());
+                } catch (NullPointerException e) {
+                    throw new DecorateException("Null pointer to decorator", e);
+                }
                 for(Saver saver : savers) {
-                    saver.save(decoratedMessage);
+                    try {
+                        saver.save(decoratedMessage);
+                    } catch (AppendException e) {
+                        throw e;
+                    }
                 }
                 clear();
             }

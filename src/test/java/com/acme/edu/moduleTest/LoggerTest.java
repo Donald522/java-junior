@@ -2,6 +2,8 @@ package com.acme.edu.moduleTest;
 
 import com.acme.edu.LoggerFacade;
 import com.acme.edu.decorators.IntDecorator;
+import com.acme.edu.exceptions.AppendException;
+import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.loggers.IntLogger;
 import com.acme.edu.savers.ConsoleSaver;
 import com.acme.edu.savers.Saver;
@@ -47,12 +49,22 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region When
-        loggerFacade.log(1);
-        loggerFacade.flush();
+        try {
+            loggerFacade.log(1);
+            loggerFacade.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("primitive: 1");
+        try {
+            verify(mockitoSaver).save("primitive: 1");
+        } catch (AppendException e) {
+            e.printStackTrace();
+        }
         //endregion
     }
 
@@ -62,12 +74,22 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region When
-        loggerFacade.log("123");
-        loggerFacade.flush();
+        try {
+            loggerFacade.log("123");
+            loggerFacade.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("string: 123");
+        try {
+            verify(mockitoSaver).save("string: 123");
+        } catch (AppendException e) {
+            e.printStackTrace();
+        }
         //endregion
     }
 
@@ -77,12 +99,22 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region When
-        loggerFacade.log((byte)4);
-        loggerFacade.flush();
+        try {
+            loggerFacade.log((byte)4);
+            loggerFacade.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("primitive: 4");
+        try {
+            verify(mockitoSaver).save("primitive: 4");
+        } catch (AppendException e) {
+            e.printStackTrace();
+        }
         //endregion
     }
 
@@ -92,12 +124,22 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region When
-        loggerFacade.log('s');
-        loggerFacade.flush();
+        try {
+            loggerFacade.log('s');
+            loggerFacade.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("char: s");
+        try {
+            verify(mockitoSaver).save("char: s");
+        } catch (AppendException e) {
+            e.printStackTrace();
+        }
         //endregion
     }
 
@@ -107,12 +149,22 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region When
-        loggerFacade.log(true);
-        loggerFacade.flush();
+        try {
+            loggerFacade.log(true);
+            loggerFacade.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("primitive: true");
+        try {
+            verify(mockitoSaver).save("primitive: true");
+        } catch (AppendException e) {
+            e.printStackTrace();
+        }
         //endregion
     }
 
@@ -123,12 +175,22 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region When
-        loggerFacade.log(object);
-        loggerFacade.flush();
+        try {
+            loggerFacade.log(object);
+            loggerFacade.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("reference: " + object.toString());
+        try {
+            verify(mockitoSaver).save("reference: " + object.toString());
+        } catch (AppendException e) {
+            e.printStackTrace();
+        }
         //endregion
     }
 
@@ -138,12 +200,22 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         IntDecorator stub = mock(IntDecorator.class);
         when(stub.decorate("123")).thenReturn("Integer 123");
         LoggerFacade loggerFacade = new LoggerFacade(new ConsoleSaver());
-        loggerFacade.setDecorator(stub);
+        try {
+            loggerFacade.setDecorator(stub);
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region When
-        loggerFacade.log(123);
-        loggerFacade.flush();
+        try {
+            loggerFacade.log(123);
+            loggerFacade.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region Then

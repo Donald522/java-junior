@@ -2,6 +2,8 @@ package com.acme.edu.iteration01;
 
 import com.acme.edu.LoggerFacade;
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
+import com.acme.edu.exceptions.AppendException;
+import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.savers.ConsoleSaver;
 import org.junit.After;
 import org.junit.Before;
@@ -9,7 +11,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
-@Ignore
+
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
 
     LoggerFacade logger = new LoggerFacade(new ConsoleSaver(), message -> System.out.println("Second saver:  " + message));
@@ -31,12 +33,18 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogInteger() throws IOException {
         //region when
-        logger.log(1);
-        logger.flush();
-        logger.log(0);
-        logger.flush();
-        logger.log(-1);
-        logger.flush();
+        try {
+            logger.log(1);
+            logger.flush();
+            logger.log(0);
+            logger.flush();
+            logger.log(-1);
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
@@ -50,12 +58,18 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogByte() throws IOException {
         //region when
-        logger.log((byte)1);
-        logger.flush();
-        logger.log((byte)0);
-        logger.flush();
-        logger.log((byte)-1);
-        logger.flush();
+        try {
+            logger.log((byte)1);
+            logger.flush();
+            logger.log((byte)0);
+            logger.flush();
+            logger.log((byte)-1);
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
@@ -70,10 +84,16 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogChar() throws IOException {
         //region when
-        logger.log('a');
-        logger.flush();
-        logger.log('b');
-        logger.flush();
+        try {
+            logger.log('a');
+            logger.flush();
+            logger.log('b');
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
@@ -86,9 +106,15 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogString() throws IOException {
         //region when
-        logger.log("test string 1");
-        logger.log("other str");
-        logger.flush();
+        try {
+            logger.log("test string 1");
+            logger.log("other str");
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
@@ -101,10 +127,16 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogBoolean() throws IOException {
         //region when
-        logger.log(true);
-        logger.flush();
-        logger.log(false);
-        logger.flush();
+        try{
+            logger.log(true);
+            logger.flush();
+            logger.log(false);
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
@@ -117,8 +149,14 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     @Test
     public void shouldLogReference() throws IOException {
         //region when
-        logger.log(new Object());
-        logger.flush();
+        try{
+            logger.log(new Object());
+            logger.flush();
+        } catch (AppendException e) {
+            e.printStackTrace();
+        } catch (DecorateException e) {
+            e.printStackTrace();
+        }
         //endregion
 
         //region then
