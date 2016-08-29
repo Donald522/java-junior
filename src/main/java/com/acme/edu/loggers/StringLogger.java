@@ -14,18 +14,18 @@ public class StringLogger extends Logger {
     private int counterOfSameSimultaneousStrings = 1;
     private boolean stringsStream = false;
 
-    private static StringLogger itSelf = null;
+//    private static StringLogger itSelf = null;
 
-    private StringLogger() {
+    public StringLogger() {
         this.loggerType = Constants.STRING;
     }
 
-    public static StringLogger getInstance() {
-        if(itSelf == null) {
-            itSelf = new StringLogger();
-        }
-        return itSelf;
-    }
+//    public static StringLogger getInstance() {
+//        if(itSelf == null) {
+//            itSelf = new StringLogger();
+//        }
+//        return itSelf;
+//    }
 
     @Override
     public void log(Object message) throws DecorateException, AppendException {

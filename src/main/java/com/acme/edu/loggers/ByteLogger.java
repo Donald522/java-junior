@@ -7,17 +7,17 @@ import com.acme.edu.constants.Constants;
  */
 public class ByteLogger extends IntLogger {
 
-    private static ByteLogger itSelf = null;
+//    private static ByteLogger itSelf = null;
 
-    private ByteLogger() {
+    public ByteLogger() {
         this.loggerType = Constants.BYTE;
         this.maxVaule = Byte.MAX_VALUE;
     }
 
-    public static ByteLogger getInstance() {
-        if(itSelf == null) {
-            itSelf = new ByteLogger();
-        }
-        return itSelf;
-    }
+//    public static ByteLogger getInstance() {
+//        if(itSelf == null) {
+//            itSelf = new ByteLogger();
+//        }
+//        return itSelf;
+//    }
 }

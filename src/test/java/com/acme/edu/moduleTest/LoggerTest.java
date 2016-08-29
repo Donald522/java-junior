@@ -154,7 +154,25 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
+    @Test
+    public void shouldChooseCorrectBranchWhenChooseType() throws  LoggerException {
+        //region Given
+        IntLogger stub = mock(IntLogger.class);
+        when(stub.getLoggerType()).thenReturn(1);
+        when(stub.getData()).thenReturn("IntegerLoggerStub");
+        LoggerFacade loggerFacade = new LoggerFacade(new ConsoleSaver());
+        loggerFacade.addLoggers(stub);
+        //endregion
 
+        //region When
+        loggerFacade.log(123);
+        loggerFacade.flush();
+        //endregion
+
+        //region Then
+        assertSysoutContains("IntegerLoggerStub");
+        //endregion
+    }
 
 
 }

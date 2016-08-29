@@ -7,6 +7,10 @@ import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.loggers.*;
 import com.acme.edu.savers.Saver;
 
+import java.util.ArrayList;
+
+import static com.acme.edu.constants.Constants.*;
+
 /**
  * Created by anton on 25.08.16.
  * Main class of Logger.
@@ -16,16 +20,64 @@ import com.acme.edu.savers.Saver;
  */
 public class LoggerFacade {
 
+    private ArrayList<Logger> loggers;
     private Logger logger;
     private Saver[] savers;
     private Decorator decorator;
 
+    private int currentLoggerType;
     private boolean decoratorByDefault = true;
 
+    /**
+     * Constructor for LoggerFacade
+     * Create the pool with default loggers
+     * If error occurs during creation then the pool will not be full which can cause the exception
+     * Create an array of Savers
+     * @param savers
+     */
     public LoggerFacade(Saver... savers) {
+
+        loggers = new ArrayList<>();
+        try {
+            addLoggers(
+                    new IntLogger(),
+                    new ByteLogger(),
+                    new CharLogger(),
+                    new BooleanLogger(),
+                    new StringLogger(),
+                    new ObjectLogger()
+            );
+        } catch (LoggerException e) {}
+
         this.savers = new Saver [savers.length];
         for (int i = 0; i < savers.length; i++) {
             this.savers[i] = savers[i];
+        }
+    }
+
+    /**
+     * Public method to add the passed loggers to the pool
+     * If passed to the method loggers have the same type as loggers are already in the pool, they will be replaced.
+     * @param loggers
+     * @throws LoggerException
+     */
+    public void addLoggers(Logger... loggers) throws LoggerException {
+        boolean attemptToSetNullLogger = false;
+        Logger existedLogger;
+        for(Logger logger : loggers) {
+            if(logger == null) {
+                attemptToSetNullLogger = true;
+                continue;
+            }
+            try {
+                existedLogger = findLogger(logger.getLoggerType());
+                this.loggers.remove(existedLogger);
+            }
+            catch (LoggerException e) {}
+            this.loggers.add(logger);
+        }
+        if(attemptToSetNullLogger) {
+            throw new LoggerException("There was attempt to add null Logger. It was canceled.");
         }
     }
 
@@ -41,16 +93,6 @@ public class LoggerFacade {
         decoratorByDefault = false;
     }
 
-    private void defindloggerAndDecorator(Logger nextLogger, Decorator nextDecorator) throws LoggerException {
-        if (logger != null && logger.getLoggerType() != nextLogger.getLoggerType()) {
-            flush();
-        }
-        logger = nextLogger;
-        if (decoratorByDefault) {
-            decorator = nextDecorator;
-        }
-    }
-
     /**
      * Log message by type.
      *
@@ -60,26 +102,82 @@ public class LoggerFacade {
     public void log(Object message) throws LoggerException {
 
         if(message instanceof Integer) {
-            defindloggerAndDecorator(IntLogger.getInstance(), IntDecorator.getInstance());
+            setAndCheckType(INT);
+            logger = findLogger(INT);
+            if (decoratorByDefault) {
+                decorator = IntDecorator.getInstance();
+            }
         } else if(message instanceof Byte) {
-            defindloggerAndDecorator(ByteLogger.getInstance(), IntDecorator.getInstance());
+            setAndCheckType(BYTE);
+            logger = findLogger(BYTE);
+            if (decoratorByDefault) {
+                decorator = IntDecorator.getInstance();
+            }
             message = ((Byte)message).intValue();
         } else if(message instanceof Character) {
-            defindloggerAndDecorator(CharLogger.getInstance(), CharDecorator.getInstance());
+            setAndCheckType(CHAR);
+            logger = findLogger(CHAR);
+            if (decoratorByDefault) {
+                decorator = CharDecorator.getInstance();
+            }
         } else if(message instanceof Boolean) {
-            defindloggerAndDecorator(BooleanLogger.getInstance(), BooleanDecorator.getInstance());
+            setAndCheckType(BOOLEAN);
+            logger = findLogger(BOOLEAN);
+            if (decoratorByDefault) {
+                decorator = BooleanDecorator.getInstance();
+            }
         } else if(message instanceof String) {
-            defindloggerAndDecorator(StringLogger.getInstance(), StringDecorator.getInstance());
-            logger.setSaver(this.savers);
+            setAndCheckType(STRING);
+            logger = findLogger(STRING);
+            if (decoratorByDefault) {
+                decorator = StringDecorator.getInstance();
+            }
             logger.setDecorator(decorator);
+            logger.setSaver(savers);
         } else {
-            defindloggerAndDecorator(ObjectLogger.getInstance(), ObjectDecorator.getInstance());
+            setAndCheckType(OBJECT);
+            logger = findLogger(OBJECT);
+            if (decoratorByDefault) {
+                decorator = ObjectDecorator.getInstance();
+            }
         }
         try {
             logger.log(message);
-        } catch (LoggerException e) {
+        } catch (DecorateException | AppendException e) {
             throw new LoggerException("Error in logging message", e);
         }
+    }
+
+    /**
+     * Set the current type og logger. Handle the type changing and flush if it is.
+     * @param type
+     * @throws LoggerException
+     */
+    private void setAndCheckType(int type) throws LoggerException {
+        currentLoggerType = type;
+        if(logger != null && logger.getLoggerType() != currentLoggerType) {
+            flush();
+        }
+    }
+
+    /**
+     * Find necessary logger in the pool loggers. If such doesn't exist then throw LoggerException
+     * @param nextType - type of logger need to be found
+     * @return - ref to the found logger
+     * @throws LoggerException
+     */
+    private Logger findLogger(int nextType) throws LoggerException {
+        Logger currentLogger = null;
+        for (Logger logger : loggers) {
+            if (logger.getLoggerType() == nextType) {
+                currentLogger = logger;
+                break;
+            }
+        }
+        if(currentLogger == null) {
+            throw new LoggerException("Can't find necessary logger");
+        }
+        return currentLogger;
     }
 
     /**

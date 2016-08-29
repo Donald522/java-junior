@@ -38,7 +38,9 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         logger.flush();
         logger.log(0);
         logger.flush();
+        logger.log(2);
         logger.log(-1);
+        logger.log(-2);
         logger.flush();
         //endregion
 

@@ -11,21 +11,21 @@ public class IntLogger extends Logger {
     protected int maxIntCounter = 0;
     protected boolean intStreamOn = false;
 
-    private static IntLogger itSelf = null;
+//    private static IntLogger itSelf = null;
 
     protected int maxVaule;
 
-    protected IntLogger() {
+    public IntLogger() {
         this.loggerType = Constants.INT;
         this.maxVaule = Integer.MAX_VALUE;
     }
-
-    public static IntLogger getInstance() {
-        if(itSelf == null) {
-            itSelf = new IntLogger();
-        }
-        return itSelf;
-    }
+//
+//    public static IntLogger getInstance() {
+//        if(itSelf == null) {
+//            itSelf = new IntLogger();
+//        }
+//        return itSelf;
+//    }
 
     @Override
     public void log(Object msg) {
