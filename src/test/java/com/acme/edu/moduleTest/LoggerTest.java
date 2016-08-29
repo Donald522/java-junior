@@ -6,6 +6,8 @@ import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.loggers.ByteLogger;
 import com.acme.edu.loggers.IntLogger;
+import com.acme.edu.loggers.Logger;
+import com.acme.edu.loggers.StringLogger;
 import com.acme.edu.savers.ConsoleSaver;
 import com.acme.edu.savers.Saver;
 import org.junit.After;
@@ -171,5 +173,47 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
+    @Test(expected=LoggerException.class)
+    public void shouldThrowExceptionWhenNullLoggerAdd() throws LoggerException {
+        //region When
+        loggerFacade.addLoggers((Logger)null);
+        //endregion
+    }
+
+    @Test(expected=LoggerException.class)
+    public void shouldThrowExceptionWhenNullPassedToMethod() throws LoggerException {
+        //region When
+        loggerFacade.addLoggers(null);
+        //endregion
+    }
+
+    @Test(expected=LoggerException.class)
+    public void shouldThrowExceptionWhenOneElementFromVarargIsNull() throws LoggerException {
+        //region When
+        loggerFacade.addLoggers(new IntLogger(), null, new StringLogger());
+        //endregion
+    }
+
+    @Test
+    public void shouldChangeLoggerWithTheSameType() throws LoggerException {
+
+        //region Given
+        LoggerFacade loggerFacade = new LoggerFacade(new ConsoleSaver());
+        loggerFacade.addLoggers(new IntLogger(), new StringLogger());
+        IntLogger stub = mock(IntLogger.class);
+        when(stub.getLoggerType()).thenReturn(1);
+        when(stub.getData()).thenReturn("IntegerLoggerStub");
+        loggerFacade.addLoggers(stub);
+        //endregion
+
+        //region When
+        loggerFacade.log(5);
+        loggerFacade.flush();
+        //endregion
+
+        //region Then
+        assertSysoutContains("IntegerLoggerStub");
+        //endregion
+    }
 
 }

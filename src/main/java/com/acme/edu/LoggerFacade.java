@@ -35,7 +35,7 @@ public class LoggerFacade {
      * Create an array of Savers
      * @param savers
      */
-    public LoggerFacade(Saver... savers) {
+    public LoggerFacade(Saver... savers) throws LoggerException {
 
         loggers = new ArrayList<>();
         try {
@@ -47,7 +47,9 @@ public class LoggerFacade {
                     new StringLogger(),
                     new ObjectLogger()
             );
-        } catch (LoggerException e) {}
+        } catch (LoggerException e) {
+            throw e;
+        }
 
         this.savers = new Saver [savers.length];
         for (int i = 0; i < savers.length; i++) {
@@ -62,16 +64,18 @@ public class LoggerFacade {
      * @throws LoggerException
      */
     public void addLoggers(Logger... loggers) throws LoggerException {
+        if(loggers == null) {
+            throw new LoggerException("Null argument instead of loggers.");
+        }
         Logger existedLogger;
         for(Logger logger : loggers) {
             if(logger == null) {
                 throw new LoggerException("There was attempt to add null Logger. It was canceled.");
             }
-            try {
-                existedLogger = findLogger(logger.getLoggerType());
+            existedLogger = findLogger(logger.getLoggerType());
+            if(existedLogger != null) {
                 this.loggers.remove(existedLogger);
             }
-            catch (LoggerException e) {}
             this.loggers.add(logger);
         }
     }
@@ -106,7 +110,7 @@ public class LoggerFacade {
         } else if(message instanceof String) {
             checkTypeAndSetLogger(STRING);
             if (((StringLogger)logger).getLastLoggedString() != null &&
-                    ((StringLogger)logger).getLastLoggedString() != (String)message) {
+                    !(((StringLogger)logger).getLastLoggedString().equals(message))) {
                 flush();
             }
         } else {
@@ -159,18 +163,14 @@ public class LoggerFacade {
      * Find necessary logger in the pool loggers. If such doesn't exist then throw LoggerException
      * @param nextType - type of logger need to be found
      * @return - ref to the found logger
-     * @throws LoggerException
      */
-    private Logger findLogger(int nextType) throws LoggerException {
+    private Logger findLogger(int nextType) {
         Logger currentLogger = null;
         for (Logger logger : loggers) {
             if (logger.getLoggerType() == nextType) {
                 currentLogger = logger;
                 break;
             }
-        }
-        if(currentLogger == null) {
-            throw new LoggerException("Can't find necessary logger");
         }
         return currentLogger;
     }
