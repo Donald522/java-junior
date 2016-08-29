@@ -22,6 +22,70 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.6.201602180812</version>
+        <executions>
+          <execution>
+            <id>pre-unit-test</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <!-- Sets the path to the file which contains the execution data. -->
+              <destFile>${project.build.directory}/jacoco.exec</destFile>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>pre-integration-test</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <!-- Sets the path to the file which contains the execution data. -->
+              <destFile>${project.build.directory}/jacoco-it.exec</destFile>
+            </configuration>
+          </execution>
+
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.1.8</version>
+        <configuration>
+          <targetClasses>
+            <param>com.acme.edu.*</param>
+          </targetClasses>
+          <targetTests>
+            <param>com.acme.edu.*</param>
+          </targetTests>
+          <mutators>
+            <mutator>ALL</mutator>
+          </mutators>
+          <outputFormats>
+            <outputFormat>HTML</outputFormat>
+            <outputFormat>XML</outputFormat>
+          </outputFormats>
+          <timestampedReports>false</timestampedReports>
+        </configuration>
+        <!--
+        No need to autorun PI analysis.
+        Use mvn clean install -DwithHistory org.pitest:pitest-maven:mutationCoverage
+        <executions>
+            <execution>
+                <id>pit-execute-mutation-coverage</id>
+                <phase>verify</phase>
+                <goals>
+                    <goal>mutationCoverage</goal>
+                </goals>
+            </execution>
+        </executions>
+        -->
+      </plugin>
     </plugins>
   </build>
 

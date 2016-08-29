@@ -34,7 +34,7 @@ public class LoggerFacade {
      */
     public void setDecorator(Decorator decorator) throws DecorateException {
         if(decorator == null) {
-            throw new DecorateException("Attemp to set null decorator");
+            throw new DecorateException("Attempt to set null decorator");
         }
         this.decorator = decorator;
         decoratorByDefault = false;
