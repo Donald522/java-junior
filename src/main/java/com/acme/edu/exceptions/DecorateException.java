@@ -3,7 +3,7 @@ package com.acme.edu.exceptions;
 /**
  * Created by Java_10 on 29.08.2016.
  */
-public class DecorateException extends Exception {
+public class DecorateException extends LoggerException {
     public DecorateException() {
         super();
     }

@@ -2,6 +2,7 @@ package com.acme.edu.loggers;
 
 import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.DecorateException;
+import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.savers.Saver;
 import com.acme.edu.decorators.Decorator;
 
@@ -32,7 +33,7 @@ public abstract class Logger {
      * The primary method of processing a message in accordance with the received message type.
      * @param message
      */
-    public abstract void log(Object message) throws DecorateException, AppendException;
+    public abstract void log(Object message) throws LoggerException;
 
     /**
      * Clear state of each specific logger.

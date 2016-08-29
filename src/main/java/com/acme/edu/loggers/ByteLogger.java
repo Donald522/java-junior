@@ -20,9 +20,4 @@ public class ByteLogger extends IntLogger {
         }
         return itSelf;
     }
-
-    @Override
-    protected void applyNumSettings() {
-        loggerType = Constants.BYTE;
-    }
 }

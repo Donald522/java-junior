@@ -77,7 +77,7 @@ public class LoggerFacade {
         }
         try {
             logger.log(message);
-        } catch (DecorateException | AppendException e) {
+        } catch (LoggerException e) {
             throw new LoggerException("Error in logging message", e);
         }
     }

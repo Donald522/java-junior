@@ -3,7 +3,7 @@ package com.acme.edu.exceptions;
 /**
  * Created by Java_10 on 29.08.2016.
  */
-public class AppendException extends Exception {
+public class AppendException extends LoggerException {
     public AppendException() {
         super();
     }

@@ -27,14 +27,9 @@ public class IntLogger extends Logger {
         return itSelf;
     }
 
-    protected void applyNumSettings() {
-        loggerType = Constants.INT;
-    }
-
     @Override
     public void log(Object msg) {
         int message = (int)msg;
-//        applyNumSettings();
         intStreamOn = true;
         if(maxVaule - accIntStream >= message) {
             accIntStream += message;
@@ -43,6 +38,8 @@ public class IntLogger extends Logger {
             maxIntCounter++;
         }
     }
+
+    @Override
     public void clear() {
         accIntStream = 0;
         maxIntCounter = 0;
