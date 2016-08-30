@@ -5,7 +5,7 @@ import com.acme.edu.exceptions.AppendException;
 import java.io.*;
 // Apache commons-io
 /**
- * Save message to file using
+ * Save message to file using BufferedWriter
  * Created by anton on 30.08.2016.
  */
 public class FileSaver implements Saver {
