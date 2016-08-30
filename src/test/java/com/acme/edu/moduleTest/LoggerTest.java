@@ -77,6 +77,24 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     }
 
     @Test
+    public void shouldCallLoggerGetDataLoggerWhenDecoratorChanged() throws LoggerException {
+        //region Given
+        Logger mockLogger = mock(IntLogger.class);
+        Decorator stubDecorator = mock(Decorator.class);
+        loggerFacade.addLoggers(mockLogger);
+        //endregion
+
+        //region When
+        loggerFacade.log(4);
+        loggerFacade.log(5, stubDecorator);
+        //endregion
+
+        //region Then
+        verify(mockitoSaver).save("primitive: 4");
+        //endregion
+    }
+
+    @Test
     public void shouldCallByteLoggerWhenLodByte() throws LoggerException {
         //region Given
         Logger mockLogger = mock(ByteLogger.class);

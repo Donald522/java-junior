@@ -126,10 +126,10 @@ public class LoggerFacade {
             throw new DecorateException("Attempt to set null decorator");
         }
         Object typedMessage = setCurrentLogger(message);
-        if (currentLogger != null && currentLogger.getDecorator() != null && !(decorator.equals(currentLogger.getDecorator()))) {
-            flush();
-        }
         if (currentLogger != null) {
+            if (!(decorator.equals(currentLogger.getDecorator()))) {
+                flush();
+            }
             currentLogger.setDecorator(decorator);
         }
         currentLogger.log(typedMessage);
