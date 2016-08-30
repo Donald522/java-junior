@@ -241,4 +241,35 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
     }
 
+    @Test(expected=LoggerException.class)
+    public void shouldThrowExceptionWhenNullDecoratorPassed() throws LoggerException {
+
+        //region Given
+        LoggerFacade loggerFacade = new LoggerFacade(new ConsoleSaver());
+        loggerFacade.addLoggers(new IntLogger());
+
+        //endregion
+
+        //region When
+        loggerFacade.log(2, null);
+        //endregion
+    }
+
+    @Test(expected=LoggerException.class)
+    public void shouldThrowNPE() throws LoggerException {
+
+        //region Given
+        LoggerFacade loggerFacade = new LoggerFacade(new ConsoleSaver());
+        IntLogger stub = mock(IntLogger.class);
+        when(stub.getLoggerType()).thenReturn(1);
+        when(stub.getData()).thenThrow(new NullPointerException());
+        loggerFacade.addLoggers(stub);
+        //endregion
+
+        //region When
+        loggerFacade.log(5);
+        loggerFacade.flush();
+        //endregion
+    }
+
 }
