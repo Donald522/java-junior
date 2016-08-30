@@ -82,8 +82,8 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogCorrectlyByteOverflowWhenSequentBytes() throws LoggerException {
         //region when
         logger.log("str 1");
-        logger.log((byte) 10);
-        logger.log(Byte.MAX_VALUE);
+        logger.log((byte)-10);
+        logger.log(Byte.MIN_VALUE);
         logger.log("str 2");
         logger.log(0);
         logger.flush();
@@ -93,9 +93,9 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         assertSysoutContains(
                 "str 1");
         assertSysoutContains(
-                "10");
+                "-10");
         assertSysoutContains(
-                String.valueOf(Byte.MAX_VALUE));
+                String.valueOf(Byte.MIN_VALUE));
         assertSysoutContains(
                 "str 2");
         assertSysoutContains(

@@ -10,6 +10,7 @@ public class ByteLogger extends IntLogger {
     public ByteLogger() {
         setDefaultDecorator();
         this.loggerType = Constants.BYTE;
-        this.maxVaule = Byte.MAX_VALUE;
+        this.maxValue = Byte.MAX_VALUE;
+        this.minValue = Byte.MIN_VALUE;
     }
 }
