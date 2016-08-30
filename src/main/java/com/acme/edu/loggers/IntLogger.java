@@ -23,8 +23,7 @@ public class IntLogger extends Logger {
     }
 
     protected int computeAccSumm(int message) {
-        int accSum = accIntStream + message;
-        return accSum;
+        return accIntStream + message;
     }
 
     @Override
