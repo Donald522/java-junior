@@ -163,14 +163,14 @@ public class LoggerFacade {
      * @return - ref to the found logger
      */
     private Logger findLogger(int nextType) {
-        Logger currentLogger = null;
+        Logger foundLogger = null;
         for (Logger logger : loggers) {
             if (logger.getLoggerType() == nextType) {
-                currentLogger = logger;
+                foundLogger = logger;
                 break;
             }
         }
-        return currentLogger;
+        return foundLogger;
     }
 
     /**
