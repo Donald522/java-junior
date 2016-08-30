@@ -53,7 +53,7 @@ public class IntLoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region Then
-        assertEquals("primitive: ", data);
+        assertEquals("primitive: " + System.lineSeparator(), data);
         //endregion
     }
 
@@ -66,7 +66,7 @@ public class IntLoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region Then
-        assertEquals("primitive: 2", data);
+        assertEquals("primitive: 2" + System.lineSeparator(), data);
         //endregion
     }
 
@@ -80,7 +80,7 @@ public class IntLoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region Then
-        assertEquals("primitive: 100" + System.lineSeparator() + String.valueOf(Integer.MAX_VALUE), data);
+        assertEquals("primitive: 100" + System.lineSeparator() + String.valueOf(Integer.MAX_VALUE) + System.lineSeparator(), data);
         //endregion
     }
 
@@ -94,7 +94,7 @@ public class IntLoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region Then
-        assertEquals("primitive: -100" + System.lineSeparator() + String.valueOf(Integer.MIN_VALUE), data);
+        assertEquals("primitive: -100" + System.lineSeparator() + String.valueOf(Integer.MIN_VALUE) + System.lineSeparator(), data);
         //endregion
     }
 
@@ -113,7 +113,7 @@ public class IntLoggerTest implements SysoutCaptureAndAssertionAbility {
         //region Then
         assertEquals("primitive: " + (Integer.MIN_VALUE + 100 + Integer.MAX_VALUE)
                 + System.lineSeparator() + String.valueOf(Integer.MAX_VALUE)
-                + System.lineSeparator() + String.valueOf(Integer.MAX_VALUE), data);
+                + System.lineSeparator() + String.valueOf(Integer.MAX_VALUE) + System.lineSeparator(), data);
         //endregion
     }
 }

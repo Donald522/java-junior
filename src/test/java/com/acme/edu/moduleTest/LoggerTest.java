@@ -90,7 +90,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("primitive: 4");
+        verify(mockitoSaver).save("primitive: 4" + System.lineSeparator());
         //endregion
     }
 
@@ -123,7 +123,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("char: s");
+        verify(mockitoSaver).save("char: s" + System.lineSeparator());
         //endregion
     }
 
@@ -138,7 +138,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("primitive: true");
+        verify(mockitoSaver).save("primitive: true" + System.lineSeparator());
         //endregion
     }
 
@@ -154,7 +154,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //endregion
 
         //region Then
-        verify(mockitoSaver).save("reference: " + object.toString());
+        verify(mockitoSaver).save("reference: " + object.toString() + System.lineSeparator());
         //endregion
     }
 
