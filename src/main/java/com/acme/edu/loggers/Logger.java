@@ -1,6 +1,5 @@
 package com.acme.edu.loggers;
 
-import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.decorators.Decorator;
 
 /**

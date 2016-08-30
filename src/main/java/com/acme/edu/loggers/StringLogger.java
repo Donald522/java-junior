@@ -2,8 +2,6 @@ package com.acme.edu.loggers;
 
 import com.acme.edu.constants.Constants;
 import com.acme.edu.decorators.Decorator;
-import com.acme.edu.exceptions.AppendException;
-import com.acme.edu.exceptions.DecorateException;
 
 /**
  * Created by anton on 25.08.16.

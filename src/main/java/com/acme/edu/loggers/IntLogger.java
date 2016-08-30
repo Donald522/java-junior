@@ -11,7 +11,6 @@ public class IntLogger extends Logger {
     private int accIntStream = 0;
     private int maxIntCounter = 0;
     private boolean intStreamOn = false;
-//    private int signAccumulateNum = 1;
 
     int maxValue;
     int minValue;
@@ -28,12 +27,16 @@ public class IntLogger extends Logger {
         int message = (int)msg;
         intStreamOn = true;
         int accSumm = accIntStream + message;
-        if (accSumm > 0 & accSumm > maxValue) accSumm = accSumm - 2*maxValue;
-        if (accSumm < 0 & accSumm < minValue) accSumm = accSumm - 2*minValue;
-        if (accSumm <= 0 & accIntStream > 0 & message >= 0) {
+        if (accSumm > 0 && accSumm > maxValue) {
+            accSumm = accSumm - 2*maxValue;
+        }
+        if (accSumm < 0 && accSumm < minValue) {
+            accSumm = accSumm - 2*minValue;
+        }
+        if (accSumm <= 0 && accIntStream > 0 && message >= 0) {
             maxIntCounter++;
             accIntStream -= (maxValue - message);
-        } else if (accSumm > 0 & accIntStream < 0 & message < 0) {
+        } else if (accSumm > 0 && accIntStream < 0 && message < 0) {
             maxIntCounter--;
             accIntStream -= (minValue - message);
         } else {

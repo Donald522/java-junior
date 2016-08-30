@@ -2,13 +2,10 @@ package com.acme.edu.iteration01;
 
 import com.acme.edu.LoggerFacade;
 import com.acme.edu.SysoutCaptureAndAssertionAbility;
-import com.acme.edu.exceptions.AppendException;
-import com.acme.edu.exceptions.DecorateException;
 import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.savers.ConsoleSaver;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
