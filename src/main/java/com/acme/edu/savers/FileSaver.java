@@ -20,6 +20,10 @@ public class FileSaver implements Saver {
         }
     }
 
+    public File getLogFile() {
+        return logFile;
+    }
+
     @Override
     public void save(String message) throws AppendException {
 
