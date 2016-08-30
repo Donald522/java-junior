@@ -1,6 +1,7 @@
 package com.acme.edu.decorators;
 
 import java.util.Objects;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Interface which you should implement to yor own Decorator.
@@ -10,16 +11,23 @@ public class Decorator {
     protected String prefix;
     protected String postfix;
 
+    public Decorator(String prefix, String postfix) {
+        this.prefix = setSpaceToFix(new StringBuilder(prefix), prefix.length() - 1);
+        this.postfix = setLineSeporatorToPostfix(setSpaceToFix(new StringBuilder(postfix), 0));
+    }
+
+    private String setLineSeporatorToPostfix(String postfix) {
+        if (!postfix.endsWith(System.lineSeparator())) {
+            return postfix + System.lineSeparator();
+        }
+        return postfix;
+    }
+
     private String setSpaceToFix(StringBuilder fix, int position) {
         if ((fix.length() > 0) && (fix.charAt(position) != ' ')) {
             return fix.insert(position + (position == 0 ? 0 : 1), ' ').toString();
         }
         return fix.toString();
-    }
-
-    public Decorator(String prefix, String postfix) {
-        this.prefix = setSpaceToFix(new StringBuilder(prefix), prefix.length() - 1);
-        this.postfix = setSpaceToFix(new StringBuilder(postfix), 0);
     }
 
     @Override
