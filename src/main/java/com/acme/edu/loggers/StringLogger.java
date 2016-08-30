@@ -28,7 +28,7 @@ public class StringLogger extends Logger {
     }
 
     @Override
-    public void log(Object message) throws DecorateException, AppendException {
+    public void log(Object message) {
         if(message.equals(lastLoggedString)) {
             counterOfSameSimultaneousStrings++;
         } else {

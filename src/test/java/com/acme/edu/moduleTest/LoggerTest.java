@@ -2,6 +2,7 @@ package com.acme.edu.moduleTest;
 
 import com.acme.edu.LoggerFacade;
 import com.acme.edu.decorators.Decorator;
+import com.acme.edu.exceptions.AppendException;
 import com.acme.edu.exceptions.LoggerException;
 import com.acme.edu.loggers.ByteLogger;
 import com.acme.edu.loggers.IntLogger;

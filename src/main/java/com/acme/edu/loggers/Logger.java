@@ -27,7 +27,7 @@ public abstract class Logger {
      * The primary method of processing a message in accordance with the received message type.
      * @param message
      */
-    public abstract void log(Object message) throws LoggerException;
+    public abstract void log(Object message);
 
     /**
      * Clear state of each specific logger.

@@ -69,4 +69,51 @@ public class IntLoggerTest implements SysoutCaptureAndAssertionAbility {
         assertEquals("primitive: 2", data);
         //endregion
     }
+
+    @Test
+    public void shouldReturnMaxValuewhenSumMoreThanMaxValue() {
+
+        //region When
+        intLogger.log(101);
+        intLogger.log(Integer.MAX_VALUE-1);
+        String data = intLogger.getData();
+        //endregion
+
+        //region Then
+        assertEquals("primitive: 100" + System.lineSeparator() + String.valueOf(Integer.MAX_VALUE), data);
+        //endregion
+    }
+
+    @Test
+    public void shouldReturnMaxValueWhenSumLittleThanMinValue() {
+
+        //region When
+        intLogger.log(-101);
+        intLogger.log(Integer.MIN_VALUE+1);
+        String data = intLogger.getData();
+        //endregion
+
+        //region Then
+        assertEquals("primitive: -100" + System.lineSeparator() + String.valueOf(Integer.MIN_VALUE), data);
+        //endregion
+    }
+
+    @Test
+    public void shouldHadleChangedSignValue() {
+
+        //region When
+        intLogger.log(101);
+        intLogger.log(Integer.MAX_VALUE-1);
+        intLogger.log(Integer.MAX_VALUE);
+        intLogger.log(Integer.MIN_VALUE);
+        intLogger.log(Integer.MAX_VALUE);
+        String data = intLogger.getData();
+        //endregion
+
+        //region Then
+        assertEquals("primitive: " + (Integer.MIN_VALUE + 100 + Integer.MAX_VALUE)
+                + System.lineSeparator() + String.valueOf(Integer.MAX_VALUE)
+                + System.lineSeparator() + String.valueOf(Integer.MAX_VALUE), data);
+        //endregion
+    }
 }

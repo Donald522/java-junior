@@ -132,7 +132,7 @@ public class LoggerFacade {
         if (currentLogger != null) {
             currentLogger.setDecorator(decorator);
         }
-        logWithCurrentLogger(typedMessage);
+        currentLogger.log(typedMessage);
     }
     /**
      * Log message by type.
@@ -141,20 +141,8 @@ public class LoggerFacade {
      *                Input types are: int, byte, String, boolean, Object, char.
      */
     public void log(Object message) throws LoggerException {
-        logWithCurrentLogger(setCurrentLogger(message));
-    }
-
-    /**
-     * Log message with current logger.
-     * @param message
-     * @throws LoggerException
-     */
-    private void logWithCurrentLogger(Object message) throws  LoggerException {
-        try {
-            currentLogger.log(message);
-        } catch (LoggerException e) {
-            throw new LoggerException("Error in logging message", e);
-        }
+        Object typedMessage = setCurrentLogger(message);
+        currentLogger.log(typedMessage);
     }
 
     /**
