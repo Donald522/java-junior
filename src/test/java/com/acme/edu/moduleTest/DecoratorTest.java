@@ -20,7 +20,7 @@ public class DecoratorTest {
 
         decorator = new Decorator("prefix without space", " postfix");
 
-        assertEquals("prefix without space  postfix", decorator.decorate(""));
+        assertEquals("prefix without space test postfix", decorator.decorate("test"));
     }
     @Test
     public void shouldAddSpaceInPostfixInConstructor() {
@@ -28,14 +28,14 @@ public class DecoratorTest {
 
         decorator = new Decorator("prefix ", "postfix without space");
 
-        assertEquals("prefix  postfix without space", decorator.decorate(""));
+        assertEquals("prefix test postfix without space", decorator.decorate("test"));
     }
     @Test
     public void shouldReturnTrueEqualsDecorators() {
         Decorator decorator1, decorator2;
 
-        decorator1 = new Decorator("prefix", "postfix");
-        decorator2 = new Decorator("prefix", "postfix");
+        decorator1 = new Decorator("prefix ", "postfix");
+        decorator2 = new Decorator("prefix ", "postfix");
 
         assertEquals(true, decorator1.equals(decorator2));
     }

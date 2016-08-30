@@ -8,7 +8,7 @@ import com.acme.edu.constants.Constants;
  */
 public class IntLogger extends Logger {
 
-    private int accIntStream = 0;
+    protected int accIntStream = 0;
     private int maxIntCounter = 0;
     private boolean intStreamOn = false;
 
@@ -22,17 +22,16 @@ public class IntLogger extends Logger {
         this.minValue = Integer.MIN_VALUE;
     }
 
+    protected int computeAccSumm(int message) {
+        int accSum = accIntStream + message;
+        return accSum;
+    }
+
     @Override
     public void log(Object msg) {
         int message = (int)msg;
+        int accSumm = computeAccSumm(message);
         intStreamOn = true;
-        int accSumm = accIntStream + message;
-        if (accSumm > 0 && accSumm > maxValue) {
-            accSumm = accSumm - 2*maxValue;
-        }
-        if (accSumm < 0 && accSumm < minValue) {
-            accSumm = accSumm - 2*minValue;
-        }
         if (accSumm <= 0 && accIntStream > 0 && message >= 0) {
             maxIntCounter++;
             accIntStream -= (maxValue - message);

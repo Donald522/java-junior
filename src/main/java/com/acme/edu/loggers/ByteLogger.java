@@ -13,4 +13,17 @@ public class ByteLogger extends IntLogger {
         this.maxValue = Byte.MAX_VALUE;
         this.minValue = Byte.MIN_VALUE;
     }
+
+    @Override
+    protected int computeAccSumm(int message) {
+        int accSumm = accIntStream + message;
+        if (accSumm > 0 && accSumm > maxValue) {
+            accSumm = accSumm - 2*maxValue;
+        }
+        if (accSumm < 0 && accSumm < minValue) {
+            accSumm = accSumm - 2*minValue;
+        }
+        return accSumm;
+    }
+
 }
