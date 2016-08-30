@@ -10,15 +10,16 @@ public class Decorator {
     protected String prefix;
     protected String postfix;
 
+    private String setSpaceToFix(StringBuilder fix, int position) {
+        if ((fix.length() > 0) && (fix.charAt(position) != ' ')) {
+            return fix.insert(position + (position == 0 ? 0 : 1), ' ').toString();
+        }
+        return fix.toString();
+    }
+
     public Decorator(String prefix, String postfix) {
-        if ((prefix.length() > 0) && (prefix.charAt(prefix.length() - 1) != ' ')) {
-            prefix += " ";
-        }
-        if ((postfix.length() > 0) && (postfix.charAt(0) != ' ')) {
-            postfix = " " + postfix;
-        }
-        this.prefix = prefix;
-        this.postfix = postfix;
+        this.prefix = setSpaceToFix(new StringBuilder(prefix), prefix.length() - 1);
+        this.postfix = setSpaceToFix(new StringBuilder(postfix), 0);
     }
 
     @Override
