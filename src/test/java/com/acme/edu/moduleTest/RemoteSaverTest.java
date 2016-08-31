@@ -11,8 +11,7 @@ import org.junit.Test;
 public class RemoteSaverTest {
     @Test
     public void shouldSendMessageOnRemoteServer() throws AppendException {
-        Saver saver = new RemoteSaver();
+        Saver saver = new RemoteSaver("localhost", 1111);
         saver.save("new message");
-        saver.save("ololol");
     }
 }
