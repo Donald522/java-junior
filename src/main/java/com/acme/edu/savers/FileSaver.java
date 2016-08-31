@@ -37,11 +37,6 @@ public class FileSaver implements Saver {
     public void changeFile() throws AppendException {
         logFile = new File(dirFile, "log_"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_hh-mm"))+".txt");
         logFile.getParentFile().mkdirs();
-//        try {
-//            logFile.createNewFile();
-//        } catch (IOException e) {
-//            throw new AppendException("Can't create file " + logFile.getName(), e);
-//        }
     }
 
     public File getLogFile() {
