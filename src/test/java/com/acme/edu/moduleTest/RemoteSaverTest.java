@@ -10,9 +10,10 @@ import org.junit.Test;
  */
 public class RemoteSaverTest {
     @Test
-    public void shouldSendMessageOnRemoteServer() throws AppendException {
+    public void shouldSendMessageOnRemoteServer() throws AppendException, InterruptedException {
         Saver saver = new RemoteSaver();
         saver.save("new message");
+        Thread.sleep(1000);
         saver.save("ololol");
     }
 }
