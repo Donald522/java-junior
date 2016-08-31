@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class Acceptor {
     private int port;
+
     private ArrayList<Socket> clientSockets = new ArrayList<>();
 
     public Acceptor(int port) {
